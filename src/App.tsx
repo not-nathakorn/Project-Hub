@@ -7,12 +7,19 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { NavigationDock } from "@/components/NavigationDock";
 import Index from "./pages/Index";
-import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
+import { AdminLayout } from "./pages/AdminLayout";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import NotFound from "./pages/NotFound";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const queryClient = new QueryClient();
+
+// Component แยกเพื่อใช้ hook ภายใน Router context
+const AnalyticsTracker = () => {
+  useAnalytics();
+  return null;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -22,9 +29,10 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <AnalyticsTracker />
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin" element={<AdminLayout />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
