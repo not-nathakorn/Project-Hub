@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ModernNavigation } from "@/components/ModernNavigation";
 import { ModernHero } from "@/components/ModernHero";
@@ -13,131 +14,7 @@ import { AnimatedText } from "@/components/ui/AnimatedText";
 import { CopyEmailButton } from "@/components/CopyEmailButton";
 import { LineButton } from "@/components/LineButton";
 import { MessageCircle } from "lucide-react";
-
-const projects = [
-  {
-    title: "Payment Form System",
-    descriptionTh: "ระบบแบบฟอร์มการชำระเงิน - จัดการและติดตามการชำระเงินออนไลน์",
-    descriptionEn: "Payment form system - Manage and track online payments",
-    url: "https://psf.codex-th.com/",
-    icon: "💳",
-    tags: ["Payment", "Forms", "Analytics"],
-  },
-  {
-    title: "Teaching Observation Log",
-    descriptionTh: "ระบบบันทึกการสังเกตการสอน - ติดตามและประเมินการสอนแบบเรียลไทม์",
-    descriptionEn: "Teaching observation log system - Track and assess teaching in real-time",
-    url: "https://tol.codex-th.com/",
-    icon: "📚",
-    tags: ["Education", "Tracking", "Assessment"],
-  },
-  {
-    title: "Product Price Comparison",
-    descriptionTh: "ระบบเปรียบเทียบราคาสินค้า - เปรียบเทียบราคาจากหลายแหล่ง",
-    descriptionEn: "Product price comparison system - Compare prices from multiple sources",
-    url: "https://cpn.codex-th.com/",
-    icon: "💰",
-    tags: ["E-commerce", "Comparison", "Analytics"],
-  },
-  {
-    title: "Tutorial Management System",
-    descriptionTh: "ระบบจัดการบทเรียน - สร้างและจัดการเนื้อหาการสอน",
-    descriptionEn: "Tutorial management system - Create and manage teaching content",
-    url: "https://tms.codex-th.com/",
-    icon: "🎓",
-    tags: ["LMS", "Content", "Education"],
-  },
-  {
-    title: "User Management & Identity",
-    descriptionTh: "ระบบจัดการผู้ใช้และยืนยันตัวตน - ยืนยันและจัดการข้อมูลผู้ใช้",
-    descriptionEn: "User management & identity verification system",
-    url: "https://bbh.codex-th.com/",
-    icon: "🔐",
-    tags: ["Auth", "Security", "Identity"],
-  },
-  {
-    title: "Satun-SOS Flood Assistance",
-    descriptionTh: "ระบบช่วยเหลือผู้ประสบภัยน้ำท่วมสตูล - ประสานงานและติดตามสถานการณ์",
-    descriptionEn: "Satun flood relief system - Coordinate and track emergency situations",
-    url: "https://satun-sos.codex-th.com/",
-    icon: "🆘",
-    tags: ["Emergency", "Relief", "Coordination"],
-  },
-];
-
-const educationData = [
-  /* {
-    year: "2025–Present",
-    titleTh: "ปริญญาโท การศึกษา",
-    titleEn: "Master of Education",
-    subtitleTh: "นวัตกรรม เทคโนโลยีและสื่อสารการศึกษา, มหาวิทยาลัยขอนแก่น",
-    subtitleEn: "Innovation, Technology & Learning Sciences, Khon Kaen University",
-    descriptionTh: "ทุน PSMT (สควค.) รุ่น 23 - เน้นการวิจัยและพัฒนานวัตกรรมทางการศึกษา",
-    descriptionEn: "PSMT Scholar (สควค.) Cohort 23 - Focus on educational innovation research and development",
-    badge: "In Progress",
-  }, */
-  {
-    year: "2021–2024",
-    titleTh: "ปริญญาตรี วิทยาศาสตร์",
-    titleEn: "Bachelor of Science",
-    subtitleTh: "เทคโนโลยีสารสนเทศและการสื่อสาร, มหาวิทยาลัยสงขลานครินทร์",
-    subtitleEn: "Information & Communication Technology, Prince of Songkla University",
-    descriptionTh: "GPA > 3.00 | ทุน TKBS รุ่น 4 - ทุนต้นกล้าบานบุรี",
-    descriptionEn: "GPA > 3.00 | TKBS Scholar Cohort 4 - Tonkla Banburi Scholarship",
-    badge: undefined,
-  },
-];
-
-const experienceData = [
-  {
-    year: "2025",
-    titleTh: "นักศึกษาแลกเปลี่ยนวัฒนธรรม",
-    titleEn: "Cultural Exchange Student",
-    subtitleTh: "Guangdong University of Technology, ประเทศจีน",
-    subtitleEn: "Guangdong University of Technology, China",
-    descriptionTh: "แลกเปลี่ยนวัฒนธรรมและเทคโนโลยีในประเทศจีน",
-    descriptionEn: "Cultural and technology exchange program in China",
-    badge: "International",
-  },
-  {
-    year: "2025",
-    titleTh: "English on Tour",
-    titleEn: "English on Tour",
-    subtitleTh: "Penang, มาเลเซีย",
-    subtitleEn: "Penang, Malaysia",
-    descriptionTh: "โครงการพัฒนาภาษาอังกฤษผ่านการท่องเที่ยวเชิงวัฒนธรรม",
-    descriptionEn: "English language development program through cultural tourism",
-  },
-  {
-    year: "2023–2024",
-    titleTh: "ผู้ช่วยสอน",
-    titleEn: "Teaching Assistant",
-    subtitleTh: "คณะวิทยาศาสตร์, มหาวิทยาลัยสงขลานครินทร์",
-    subtitleEn: "Faculty of Science, PSU",
-    descriptionTh: "ผู้ช่วยสอน 3 ปี: C/C#, System Architecture, Network, Frontend Development",
-    descriptionEn: "3-year Teaching Assistant: C/C#, System Architecture, Network, Frontend Development",
-    badge: "3 Years",
-  },
-  {
-    year: "2023",
-    titleTh: "PSU Backpacking ASEAN",
-    titleEn: "PSU Backpacking ASEAN",
-    subtitleTh: "มาเลเซีย และ สิงคโปร์",
-    subtitleEn: "Malaysia & Singapore",
-    descriptionTh: "การเดินทางศึกษาดูงานและแลกเปลี่ยนวัฒนธรรมในอาเซียน",
-    descriptionEn: "Educational tour and cultural exchange program in ASEAN",
-  },
-  {
-    year: "2022–2023",
-    titleTh: "อุปนายกฝ่ายกิจการพิเศษ",
-    titleEn: "Vice President for Special Affairs",
-    subtitleTh: "สโมสรนักศึกษาวิทยาศาสตร์, มหาวิทยาลัยสงขลานครินทร์",
-    subtitleEn: "Science Student Club, PSU",
-    descriptionTh: "อุปนายกฝ่ายกิจการพิเศษ - ดูแลโครงการและกิจกรรมพิเศษ",
-    descriptionEn: "Vice President for Special Affairs - Oversee special projects and activities",
-    badge: "Leadership",
-  },
-];
+import { supabase, Project, Education, Experience } from "@/lib/supabase";
 
 const skills = [
   "React & TypeScript",
@@ -152,6 +29,92 @@ const skills = [
 
 const Index = () => {
   const { language, t } = useLanguage();
+  
+  // State for Supabase data
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [education, setEducation] = useState<Education[]>([]);
+  const [experience, setExperience] = useState<Experience[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch data from Supabase
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch projects (only visible ones)
+        const { data: projectsData } = await supabase
+          .from('projects')
+          .select('*')
+          .eq('is_visible', true)
+          .order('order_index', { ascending: true });
+
+        // Fetch education (only visible ones)
+        const { data: educationData } = await supabase
+          .from('education')
+          .select('*')
+          .eq('is_visible', true)
+          .order('order_index', { ascending: true });
+
+        // Fetch experience (only visible ones)
+        const { data: experienceData } = await supabase
+          .from('experience')
+          .select('*')
+          .eq('is_visible', true)
+          .order('order_index', { ascending: true });
+
+        setProjects(projectsData || []);
+        setEducation(educationData || []);
+        setExperience(experienceData || []);
+        
+        console.log('🌐 Website data refreshed:', new Date().toLocaleTimeString());
+        console.log('  📦 Projects:', projectsData?.length, projectsData);
+        console.log('  🎓 Education:', educationData?.length, educationData);
+        console.log('  💼 Experience:', experienceData?.length, experienceData);
+      } catch (error) {
+        console.error('❌ Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    // Subscribe to realtime changes (Single Channel)
+    const channel = supabase
+      .channel('public-website-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, (payload) => {
+        console.log('🔄 Projects changed:', payload);
+        fetchData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'education' }, (payload) => {
+        console.log('🔄 Education changed:', payload);
+        fetchData();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'experience' }, (payload) => {
+        console.log('🔄 Experience changed:', payload);
+        fetchData();
+      })
+      .subscribe((status) => {
+        console.log('📡 Realtime status:', status);
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Connected to Realtime');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.error('❌ Realtime Connection Error');
+        }
+      });
+
+    // Cleanup
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative">
@@ -190,9 +153,9 @@ const Index = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {projects.map((project, index) => (
               <ModernProjectCard
-                key={index}
+                key={project.id}
                 {...project}
-                description={language === "th" ? project.descriptionTh : project.descriptionEn}
+                description={language === "th" ? project.description_th : project.description_en}
                 index={index}
               />
             ))}
@@ -344,13 +307,13 @@ const Index = () => {
           </motion.div>
 
           <div>
-            {educationData.map((item, index) => (
+            {education.map((item, index) => (
               <ModernTimelineItem
-                key={index}
+                key={item.id}
                 year={item.year}
-                title={language === "th" ? item.titleTh : item.titleEn}
-                subtitle={language === "th" ? item.subtitleTh : item.subtitleEn}
-                description={language === "th" ? item.descriptionTh : item.descriptionEn}
+                title={language === "th" ? item.title_th : item.title_en}
+                subtitle={language === "th" ? item.subtitle_th : item.subtitle_en}
+                description={language === "th" ? item.description_th : item.description_en}
                 badge={item.badge}
                 index={index}
               />
@@ -383,13 +346,13 @@ const Index = () => {
           </motion.div>
 
           <div>
-            {experienceData.map((item, index) => (
+            {experience.map((item, index) => (
               <ModernTimelineItem
-                key={index}
+                key={item.id}
                 year={item.year}
-                title={language === "th" ? item.titleTh : item.titleEn}
-                subtitle={language === "th" ? item.subtitleTh : item.subtitleEn}
-                description={language === "th" ? item.descriptionTh : item.descriptionEn}
+                title={language === "th" ? item.title_th : item.title_en}
+                subtitle={language === "th" ? item.subtitle_th : item.subtitle_en}
+                description={language === "th" ? item.description_th : item.description_en}
                 badge={item.badge}
                 index={index}
               />

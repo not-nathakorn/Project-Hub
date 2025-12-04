@@ -12,6 +12,19 @@ dist
 dist-ssr
 *.local
 
+# Environment variables (IMPORTANT: Contains sensitive API keys)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+
+# Database schema with sample data (may contain sensitive info)
+# Template file (supabase-schema-template.sql) is safe to commit
+supabase-schema.sql
+!supabase-schema-template.sql
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
