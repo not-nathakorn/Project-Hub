@@ -98,18 +98,55 @@ export const AnalyticsDashboard = () => {
     }
   };
 
+
   const handleResetData = async () => {
     if (!confirm('คุณแน่ใจหรือไม่ที่จะลบข้อมูลสถิติทั้งหมด? การกระทำนี้ไม่สามารถย้อนกลับได้')) return;
     
+    setLoading(true);
     try {
-      const { error } = await supabase.from('website_visits').delete().neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
-      if (error) throw error;
+      // Method 1: Try to delete with a very broad condition
+      const { data, error, count } = await supabase
+        .from('website_visits')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000')
+        .select();
       
-      toast.success('ล้างข้อมูลเรียบร้อย');
-      fetchAnalytics();
+      if (error) {
+        console.error('Delete error:', error);
+        
+        // If RLS blocks delete, show helpful error message
+        if (error.code === '42501' || error.message.includes('policy')) {
+          toast.error('ไม่มีสิทธิ์ลบข้อมูล - กรุณาเพิ่ม DELETE policy ใน Supabase');
+          toast.info('รัน SQL: CREATE POLICY "Allow delete" ON website_visits FOR DELETE USING (true);');
+        } else {
+          toast.error(`เกิดข้อผิดพลาด: ${error.message}`);
+        }
+        return;
+      }
+      
+      console.log('Deleted records:', count);
+      
+      // Reset stats immediately
+      setStats({
+        visitors: 0,
+        pageViews: 0,
+        chartData: [],
+        topPages: [],
+        referrers: [],
+        os: [],
+        devices: [],
+        countries: []
+      });
+      
+      toast.success(`ล้างข้อมูลเรียบร้อย (ลบ ${count || 0} รายการ)`);
+      
+      // Fetch fresh data to confirm
+      await fetchAnalytics();
     } catch (error) {
       console.error('Error resetting data:', error);
       toast.error('เกิดข้อผิดพลาดในการล้างข้อมูล');
+    } finally {
+      setLoading(false);
     }
   };
 

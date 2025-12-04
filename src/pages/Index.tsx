@@ -15,6 +15,7 @@ import { CopyEmailButton } from "@/components/CopyEmailButton";
 import { LineButton } from "@/components/LineButton";
 import { MessageCircle } from "lucide-react";
 import { supabase, Project, Education, Experience } from "@/lib/supabase";
+import ThailandEducationMap from "@/components/ThailandEducationMap";
 
 const skills = [
   "React & TypeScript",
@@ -319,6 +320,14 @@ const Index = () => {
               />
             ))}
           </div>
+        </div>
+      </section>
+
+
+      {/* Thailand Education Map */}
+      <section className="relative py-8 md:py-12 lg:py-16 px-4 overflow-hidden">
+        <div className="container mx-auto max-w-6xl">
+          <ThailandEducationMap />
         </div>
       </section>
 

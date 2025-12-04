@@ -10,6 +10,7 @@ import { ProjectForm } from '@/components/admin/ProjectForm';
 import { EducationForm } from '@/components/admin/EducationForm';
 import { ExperienceForm } from '@/components/admin/ExperienceForm';
 import { PersonalInfoForm } from '@/components/admin/PersonalInfoForm';
+import { motion } from 'framer-motion';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -156,86 +157,151 @@ export const ContentManager = () => {
   }
 
   return (
-    <div className="space-y-6 p-4 md:p-8">
-      {/* Stats Cards */}
+    <div className="space-y-6">
+      {/* Stats Cards with Glass Effect */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white dark:bg-neutral-900 rounded-xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">แสดงบนเว็บ</p>
-            <p className="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">
-              {visibleCount(projects) + visibleCount(education) + visibleCount(experience)}
-            </p>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+          className="glass rounded-2xl p-6 border border-white/20 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-1">แสดงบนเว็บ</p>
+              <p className="text-4xl font-black gradient-text">
+                {visibleCount(projects) + visibleCount(education) + visibleCount(experience)}
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">รายการที่กำลังแสดงผล</p>
+            </div>
+            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center border border-green-500/30 shadow-lg shadow-green-500/10">
+              <Globe className="w-8 h-8 text-green-600 dark:text-green-400" />
+            </div>
           </div>
-          <div className="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
-            <Globe className="w-5 h-5" />
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+          className="glass rounded-2xl p-6 border border-white/20 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-1">ซ่อนอยู่</p>
+              <p className="text-4xl font-black text-foreground">
+                {projects.length + education.length + experience.length - 
+                 (visibleCount(projects) + visibleCount(education) + visibleCount(experience))}
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">รายการที่ไม่แสดงผล</p>
+            </div>
+            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-neutral-500/20 to-neutral-600/20 flex items-center justify-center border border-neutral-500/30 shadow-lg">
+              <EyeOffIcon className="w-8 h-8 text-neutral-600 dark:text-neutral-400" />
+            </div>
           </div>
-        </div>
-        <div className="bg-white dark:bg-neutral-900 rounded-xl p-6 border border-neutral-200 dark:border-neutral-800 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">ซ่อนอยู่</p>
-            <p className="text-2xl font-bold text-neutral-600 dark:text-neutral-400 mt-1">
-              {projects.length + education.length + experience.length - 
-               (visibleCount(projects) + visibleCount(education) + visibleCount(experience))}
-            </p>
-          </div>
-          <div className="h-10 w-10 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400">
-            <EyeOffIcon className="w-5 h-5" />
-          </div>
-        </div>
+        </motion.div>
       </div>
 
       <Tabs defaultValue="projects" className="space-y-6">
-        <TabsList className="bg-white/40 dark:bg-black/40 backdrop-blur-md p-1 rounded-xl w-full flex overflow-x-auto border border-white/20 dark:border-white/10">
-          <TabsTrigger value="projects" className="flex-1 data-[state=active]:bg-white/80 dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all duration-300 rounded-lg">
-            Projects 
-            <Badge variant="secondary" className="ml-2 hidden md:inline-flex bg-primary/10 text-primary border-primary/20">{visibleCount(projects)}/{projects.length}</Badge>
+        <TabsList className="glass p-1.5 rounded-2xl w-full grid grid-cols-2 lg:grid-cols-4 gap-1 border border-white/20 dark:border-white/10 shadow-lg">
+          <TabsTrigger 
+            value="projects" 
+            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+          >
+            <span className="flex items-center gap-2">
+              Projects
+              <Badge variant="secondary" className="ml-1 hidden md:inline-flex bg-primary/10 text-primary border-primary/20 shadow-sm">
+                {visibleCount(projects)}/{projects.length}
+              </Badge>
+            </span>
           </TabsTrigger>
-          <TabsTrigger value="education" className="flex-1 data-[state=active]:bg-white/80 dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all duration-300 rounded-lg">
-            Education
-            <Badge variant="secondary" className="ml-2 hidden md:inline-flex bg-primary/10 text-primary border-primary/20">{visibleCount(education)}/{education.length}</Badge>
+          <TabsTrigger 
+            value="education" 
+            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+          >
+            <span className="flex items-center gap-2">
+              Education
+              <Badge variant="secondary" className="ml-1 hidden md:inline-flex bg-primary/10 text-primary border-primary/20 shadow-sm">
+                {visibleCount(education)}/{education.length}
+              </Badge>
+            </span>
           </TabsTrigger>
-          <TabsTrigger value="experience" className="flex-1 data-[state=active]:bg-white/80 dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all duration-300 rounded-lg">
-            Experience
-            <Badge variant="secondary" className="ml-2 hidden md:inline-flex bg-primary/10 text-primary border-primary/20">{visibleCount(experience)}/{experience.length}</Badge>
+          <TabsTrigger 
+            value="experience" 
+            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+          >
+            <span className="flex items-center gap-2">
+              Experience
+              <Badge variant="secondary" className="ml-1 hidden md:inline-flex bg-primary/10 text-primary border-primary/20 shadow-sm">
+                {visibleCount(experience)}/{experience.length}
+              </Badge>
+            </span>
           </TabsTrigger>
-          <TabsTrigger value="personal" className="flex-1 data-[state=active]:bg-white/80 dark:data-[state=active]:bg-white/10 data-[state=active]:shadow-sm data-[state=active]:text-primary transition-all duration-300 rounded-lg">
-            Personal Info
+          <TabsTrigger 
+            value="personal" 
+            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+          >
+            <span className="flex items-center gap-2">
+              Personal
+            </span>
           </TabsTrigger>
         </TabsList>
 
         {/* Projects Tab */}
         <TabsContent value="projects" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold gradient-text">Projects Management</h2>
-            <Button onClick={() => setShowProjectForm(true)} className="glass-button">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-between items-center"
+          >
+            <h2 className="text-2xl font-bold gradient-text">Projects Management</h2>
+            <Button 
+              onClick={() => setShowProjectForm(true)} 
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add Project
             </Button>
-          </div>
+          </motion.div>
           <div className="grid gap-4">
-            {projects.map((project) => (
-              <div
+            {projects.map((project, index) => (
+              <motion.div
                 key={project.id}
-                className={`group relative flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 hover:scale-[1.01] ${
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className={`group relative flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.01] ${
                   project.is_visible 
-                    ? 'bg-white/60 dark:bg-black/40 border-green-500/30 shadow-lg shadow-green-500/5' 
-                    : 'bg-white/40 dark:bg-black/20 border-white/10 opacity-75 grayscale'
+                    ? 'glass border-green-500/30 shadow-lg shadow-green-500/5 hover:shadow-green-500/10' 
+                    : 'glass border-white/10 opacity-60 hover:opacity-80'
                 }`}
               >
                 <div className="flex items-center gap-4 flex-1">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 flex items-center justify-center text-2xl shadow-inner border border-white/10">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center text-3xl shadow-inner border border-blue-500/20">
                     {project.icon}
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-foreground">{project.title}</h3>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-lg text-foreground">{project.title}</h3>
                       {project.is_visible && (
-                        <Badge variant="default" className="bg-green-500/10 text-green-600 border-green-500/20 text-[10px] px-2 py-0.5 h-5 shadow-none">
-                          Online
+                        <Badge variant="default" className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 text-xs px-2 py-0.5 h-5 shadow-sm">
+                          Live
                         </Badge>
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-1">{project.description_th}</p>
+                    <p className="text-sm text-muted-foreground line-clamp-1 mb-2">{project.description_th}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.tags.slice(0, 3).map((tag, idx) => (
+                        <Badge key={idx} variant="outline" className="text-xs bg-primary/5 border-primary/20">
+                          {tag}
+                        </Badge>
+                      ))}
+                      {project.tags.length > 3 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{project.tags.length - 3}
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </div>
                 
@@ -244,7 +310,7 @@ export const ContentManager = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => toggleVisibility('projects', project.id, project.is_visible)}
-                    className={`hover:bg-white/20 ${project.is_visible ? "text-green-500" : "text-muted-foreground"}`}
+                    className={`hover:scale-110 transition-transform ${project.is_visible ? "text-green-500 hover:bg-green-500/10" : "text-muted-foreground hover:bg-white/10"}`}
                   >
                     {project.is_visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                   </Button>
@@ -255,7 +321,7 @@ export const ContentManager = () => {
                       setEditingProject(project);
                       setShowProjectForm(true);
                     }}
-                    className="hover:bg-blue-500/10 hover:text-blue-500"
+                    className="hover:bg-blue-500/10 hover:text-blue-500 hover:scale-110 transition-all"
                   >
                     <Edit className="w-4 h-4" />
                   </Button>
@@ -263,43 +329,58 @@ export const ContentManager = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => setDeleteDialog({ open: true, type: 'projects', id: project.id })}
-                    className="hover:bg-red-500/10 hover:text-red-500"
+                    className="hover:bg-red-500/10 hover:text-red-500 hover:scale-110 transition-all"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </TabsContent>
 
         {/* Education Tab */}
         <TabsContent value="education" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold gradient-text">Education History</h2>
-            <Button onClick={() => setShowEducationForm(true)} className="glass-button">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-between items-center"
+          >
+            <h2 className="text-2xl font-bold gradient-text">Education History</h2>
+            <Button 
+              onClick={() => setShowEducationForm(true)} 
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add Education
             </Button>
-          </div>
+          </motion.div>
           <div className="grid gap-4">
             {education.map((edu, index) => (
-              <div
+              <motion.div
                 key={edu.id}
-                className={`group relative flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 hover:scale-[1.01] ${
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className={`group relative flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.01] ${
                   edu.is_visible 
-                    ? 'bg-white/60 dark:bg-black/40 border-blue-500/30 shadow-lg shadow-blue-500/5' 
-                    : 'bg-white/40 dark:bg-black/20 border-white/10 opacity-75 grayscale'
+                    ? 'glass border-blue-500/30 shadow-lg shadow-blue-500/5 hover:shadow-blue-500/10' 
+                    : 'glass border-white/10 opacity-60 hover:opacity-80'
                 }`}
               >
                 <div className="flex items-center gap-4 flex-1">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 font-bold border border-blue-500/20">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-lg border border-blue-500/20 shadow-inner">
                     {index + 1}
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-foreground">{edu.title_th}</h3>
-                      <Badge variant="outline" className="text-xs border-white/20 bg-white/5">{edu.year}</Badge>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="font-bold text-lg text-foreground">{edu.title_th}</h3>
+                      <Badge variant="outline" className="text-xs border-primary/20 bg-primary/5">{edu.year}</Badge>
+                      {edu.is_visible && (
+                        <Badge variant="default" className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 text-xs px-2 py-0.5 h-5 shadow-sm">
+                          Live
+                        </Badge>
+                      )}
                     </div>
                     <p className="text-sm text-muted-foreground line-clamp-1">{edu.subtitle_th}</p>
                   </div>
@@ -310,7 +391,7 @@ export const ContentManager = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => toggleVisibility('education', edu.id, edu.is_visible)}
-                    className={`hover:bg-white/20 ${edu.is_visible ? "text-green-500" : "text-muted-foreground"}`}
+                    className={`hover:scale-110 transition-transform ${edu.is_visible ? "text-green-500 hover:bg-green-500/10" : "text-muted-foreground hover:bg-white/10"}`}
                   >
                     {edu.is_visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                   </Button>
@@ -321,7 +402,7 @@ export const ContentManager = () => {
                       setEditingEducation(edu);
                       setShowEducationForm(true);
                     }}
-                    className="hover:bg-blue-500/10 hover:text-blue-500"
+                    className="hover:bg-blue-500/10 hover:text-blue-500 hover:scale-110 transition-all"
                   >
                     <Edit className="w-4 h-4" />
                   </Button>
@@ -329,43 +410,58 @@ export const ContentManager = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => setDeleteDialog({ open: true, type: 'education', id: edu.id })}
-                    className="hover:bg-red-500/10 hover:text-red-500"
+                    className="hover:bg-red-500/10 hover:text-red-500 hover:scale-110 transition-all"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </TabsContent>
 
         {/* Experience Tab */}
         <TabsContent value="experience" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold gradient-text">Work Experience</h2>
-            <Button onClick={() => setShowExperienceForm(true)} className="glass-button">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-between items-center"
+          >
+            <h2 className="text-2xl font-bold gradient-text">Work Experience</h2>
+            <Button 
+              onClick={() => setShowExperienceForm(true)} 
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all duration-300"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add Experience
             </Button>
-          </div>
+          </motion.div>
           <div className="grid gap-4">
             {experience.map((exp, index) => (
-              <div
+              <motion.div
                 key={exp.id}
-                className={`group relative flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 hover:scale-[1.01] ${
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className={`group relative flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.01] ${
                   exp.is_visible 
-                    ? 'bg-white/60 dark:bg-black/40 border-purple-500/30 shadow-lg shadow-purple-500/5' 
-                    : 'bg-white/40 dark:bg-black/20 border-white/10 opacity-75 grayscale'
+                    ? 'glass border-purple-500/30 shadow-lg shadow-purple-500/5 hover:shadow-purple-500/10' 
+                    : 'glass border-white/10 opacity-60 hover:opacity-80'
                 }`}
               >
                 <div className="flex items-center gap-4 flex-1">
-                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 font-bold border border-purple-500/20">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold text-lg border border-purple-500/20 shadow-inner">
                     {index + 1}
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-foreground">{exp.title_th}</h3>
-                      <Badge variant="outline" className="text-xs border-white/20 bg-white/5">{exp.year}</Badge>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="font-bold text-lg text-foreground">{exp.title_th}</h3>
+                      <Badge variant="outline" className="text-xs border-primary/20 bg-primary/5">{exp.year}</Badge>
+                      {exp.is_visible && (
+                        <Badge variant="default" className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 text-xs px-2 py-0.5 h-5 shadow-sm">
+                          Live
+                        </Badge>
+                      )}
                     </div>
                     <p className="text-sm text-muted-foreground line-clamp-1">{exp.subtitle_th}</p>
                   </div>
@@ -376,7 +472,7 @@ export const ContentManager = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => toggleVisibility('experience', exp.id, exp.is_visible)}
-                    className={`hover:bg-white/20 ${exp.is_visible ? "text-green-500" : "text-muted-foreground"}`}
+                    className={`hover:scale-110 transition-transform ${exp.is_visible ? "text-green-500 hover:bg-green-500/10" : "text-muted-foreground hover:bg-white/10"}`}
                   >
                     {exp.is_visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                   </Button>
@@ -387,7 +483,7 @@ export const ContentManager = () => {
                       setEditingExperience(exp);
                       setShowExperienceForm(true);
                     }}
-                    className="hover:bg-blue-500/10 hover:text-blue-500"
+                    className="hover:bg-blue-500/10 hover:text-blue-500 hover:scale-110 transition-all"
                   >
                     <Edit className="w-4 h-4" />
                   </Button>
@@ -395,30 +491,35 @@ export const ContentManager = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => setDeleteDialog({ open: true, type: 'experience', id: exp.id })}
-                    className="hover:bg-red-500/10 hover:text-red-500"
+                    className="hover:bg-red-500/10 hover:text-red-500 hover:scale-110 transition-all"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </TabsContent>
 
         {/* Personal Info Tab */}
         <TabsContent value="personal">
-          <Card className="glass border-white/20 dark:border-white/10 shadow-lg bg-white/40 dark:bg-black/40 backdrop-blur-md">
-            <CardHeader>
-              <CardTitle className="gradient-text">Personal Information</CardTitle>
-              <CardDescription>Edit your personal details and skills</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <PersonalInfoForm 
-                personalInfo={personalInfo} 
-                onSave={() => fetchPersonalInfo()} 
-              />
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Card className="glass border-white/20 dark:border-white/10 shadow-xl">
+              <CardHeader className="border-b border-white/10">
+                <CardTitle className="text-2xl gradient-text">Personal Information</CardTitle>
+                <CardDescription className="text-muted-foreground">Edit your personal details and skills</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <PersonalInfoForm 
+                  personalInfo={personalInfo} 
+                  onSave={() => fetchPersonalInfo()} 
+                />
+              </CardContent>
+            </Card>
+          </motion.div>
         </TabsContent>
       </Tabs>
 

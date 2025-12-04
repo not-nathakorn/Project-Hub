@@ -10,6 +10,7 @@ import { ProjectForm } from '@/components/admin/ProjectForm';
 import { EducationForm } from '@/components/admin/EducationForm';
 import { ExperienceForm } from '@/components/admin/ExperienceForm';
 import { PersonalInfoForm } from '@/components/admin/PersonalInfoForm';
+import { MapSettingsManager } from '@/components/admin/MapSettingsManager';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -195,7 +196,7 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="personal" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 glass-strong p-1">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 glass-strong p-1">
             <TabsTrigger value="personal" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               ข้อมูลส่วนตัว
             </TabsTrigger>
@@ -210,6 +211,9 @@ const Admin = () => {
             <TabsTrigger value="experience" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               ประสบการณ์
               <Badge variant="secondary" className="ml-2">{visibleCount(experience)}/{experience.length}</Badge>
+            </TabsTrigger>
+            <TabsTrigger value="map" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              แผนที่
             </TabsTrigger>
           </TabsList>
 
@@ -584,6 +588,11 @@ const Admin = () => {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Map Settings Tab */}
+          <TabsContent value="map">
+            <MapSettingsManager />
           </TabsContent>
         </Tabs>
       </div>

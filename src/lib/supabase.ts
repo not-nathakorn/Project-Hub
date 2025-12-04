@@ -86,3 +86,29 @@ export interface University {
   created_at: string;
   updated_at: string;
 }
+
+export interface MapSettings {
+  id: string;
+  is_visible: boolean;
+  enabled_universities: string[]; // ['north', 'northeast', 'central', 'south']
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MapUniversity {
+  id: string;
+  region: string; // 'north', 'northeast', 'central', 'south'
+  name_th: string;
+  name_en: string;
+  region_th: string;
+  year: string;
+  degree_level: string;
+  faculty?: string;
+  major?: string;
+  logo_url?: string;
+  color: string;
+  order_index: number;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
+}
