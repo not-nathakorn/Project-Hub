@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, GraduationCap, Calendar, Award, X } from 'lucide-react';
 import { supabase, MapUniversity } from '@/lib/supabase';
 
 
@@ -102,7 +103,7 @@ const ThailandEducationMap = () => {
   const [universities, setUniversities] = useState<Record<string, MapUniversity>>({});
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
-  // Fetch map settings from Supabase
+  // Fetch map settings from Supabase and Subscribe to changes
   useEffect(() => {
     const fetchMapSettings = async () => {
       try {
@@ -117,11 +118,35 @@ const ThailandEducationMap = () => {
         }
       } catch (error) {
         console.error('Error fetching map settings:', error);
-        // Keep default values if fetch fails
       }
     };
 
     fetchMapSettings();
+
+    // Realtime Subscription
+    const channel = supabase
+      .channel('map-settings-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'map_settings'
+        },
+        (payload) => {
+          console.log('Map settings updated:', payload);
+          if (payload.new) {
+            const newData = payload.new as any;
+            setMapVisible(newData.is_visible);
+            setEnabledUniversities(newData.enabled_universities || []);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   // Fetch universities data from Supabase
@@ -147,6 +172,17 @@ const ThailandEducationMap = () => {
     };
 
     fetchUniversities();
+  }, []);
+
+  // Close cards when clicking outside (Global Listener)
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setActiveRegion(null);
+      setSelectedMapRegion(null);
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -233,6 +269,31 @@ const ThailandEducationMap = () => {
       });
   }, []);
 
+  // Handle Visibility based on Enabled Universities
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    
+    const groups = mapContainerRef.current.querySelectorAll('.region-group');
+    groups.forEach((group: any) => {
+      const region = group.getAttribute('data-region');
+      if (region) {
+        if (enabledUniversities.includes(region)) {
+          group.style.display = 'block';
+          group.style.opacity = '1';
+          group.style.pointerEvents = 'all';
+        } else {
+          // Option 1: Hide completely
+          // group.style.display = 'none';
+          
+          // Option 2: Fade out and disable interaction (Better for UX)
+          group.style.opacity = '0.1';
+          group.style.pointerEvents = 'none';
+          group.style.filter = 'grayscale(100%)';
+        }
+      }
+    });
+  }, [enabledUniversities, svgContent]);
+
   // Handle Hover Effect
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -241,6 +302,9 @@ const ThailandEducationMap = () => {
     groups.forEach((group: any) => {
       const region = group.getAttribute('data-region');
       
+      // Skip if region is disabled
+      if (region && !enabledUniversities.includes(region)) return;
+
       const baseTransform = 'translate(0px, 0px)';
 
       if (hoveredRegion && region === hoveredRegion) {
@@ -257,7 +321,7 @@ const ThailandEducationMap = () => {
         group.style.zIndex = '1';
       }
     });
-  }, [hoveredRegion]);
+  }, [hoveredRegion, enabledUniversities]);
 
   const handleMapHover = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -278,6 +342,7 @@ const ThailandEducationMap = () => {
     if (group) {
       const region = group.getAttribute('data-region');
       if (region) {
+        e.stopPropagation();
         setSelectedMapRegion(selectedMapRegion === region ? null : region);
         setActiveRegion(null); 
         return;
@@ -295,7 +360,6 @@ const ThailandEducationMap = () => {
   return (
     <div 
       className="w-full py-16 flex flex-col items-center justify-center min-h-[1200px] relative overflow-visible" 
-      onClick={() => { setActiveRegion(null); setSelectedMapRegion(null); }}
     >
       
       {/* Background Glows */}
@@ -308,7 +372,6 @@ const ThailandEducationMap = () => {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         className="text-center mb-16 z-10 relative"
-        onClick={() => { setActiveRegion(null); setSelectedMapRegion(null); }}
       >
         <span className="inline-block px-4 py-2 rounded-full glass-strong border border-white/40 text-sm font-medium text-indigo-900 mb-4 shadow-sm backdrop-blur-md bg-white/30">
           Academic Journey
@@ -322,10 +385,7 @@ const ThailandEducationMap = () => {
       </motion.div>
 
       {/* Browser Mockup Container */}
-      <div 
-        className="relative w-full max-w-[800px] z-20 perspective-1000"
-        onClick={() => { setActiveRegion(null); setSelectedMapRegion(null); }}
-      >
+      <div className="relative w-full max-w-[800px] z-20 perspective-1000">
         <motion.div 
           initial={{ rotateX: 5 }}
           whileInView={{ rotateX: 0 }}
@@ -475,6 +535,7 @@ const ThailandEducationMap = () => {
             delay={0.2}
             theme={REGION_THEMES.north}
             isActive={activeRegion === 'north'}
+            isHovered={hoveredRegion === 'north'}
             onClick={(e: any) => { e.stopPropagation(); setActiveRegion(activeRegion === 'north' ? null : 'north'); setSelectedMapRegion(null); }}
             onHover={() => setHoveredRegion('north')}
             onLeave={() => setHoveredRegion(null)}
@@ -491,6 +552,7 @@ const ThailandEducationMap = () => {
             delay={0.4}
             theme={REGION_THEMES.northeast}
             isActive={activeRegion === 'northeast'}
+            isHovered={hoveredRegion === 'northeast'}
             onClick={(e: any) => { e.stopPropagation(); setActiveRegion(activeRegion === 'northeast' ? null : 'northeast'); setSelectedMapRegion(null); }}
             onHover={() => setHoveredRegion('northeast')}
             onLeave={() => setHoveredRegion(null)}
@@ -507,6 +569,7 @@ const ThailandEducationMap = () => {
             delay={0.6}
             theme={REGION_THEMES.central}
             isActive={activeRegion === 'central'}
+            isHovered={hoveredRegion === 'central'}
             onClick={(e: any) => { e.stopPropagation(); setActiveRegion(activeRegion === 'central' ? null : 'central'); setSelectedMapRegion(null); }}
             onHover={() => setHoveredRegion('central')}
             onLeave={() => setHoveredRegion(null)}
@@ -523,6 +586,7 @@ const ThailandEducationMap = () => {
             delay={0.8}
             theme={REGION_THEMES.south}
             isActive={activeRegion === 'south'}
+            isHovered={hoveredRegion === 'south'}
             onClick={(e: any) => { e.stopPropagation(); setActiveRegion(activeRegion === 'south' ? null : 'south'); setSelectedMapRegion(null); }}
             onHover={() => setHoveredRegion('south')}
             onLeave={() => setHoveredRegion(null)}
@@ -537,8 +601,14 @@ const ThailandEducationMap = () => {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 50, scale: 0.9 }}
               className="absolute top-[15%] -right-[75%] w-80 glass-strong p-6 rounded-3xl border border-white/60 shadow-2xl z-50 backdrop-blur-xl bg-white/80"
-              onClick={(e) => e.stopPropagation()}
+              onClick={() => setSelectedMapRegion(null)}
             >
+              <button 
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/50 hover:bg-white text-slate-500 hover:text-red-500 transition-all z-20"
+                onClick={(e) => { e.stopPropagation(); setSelectedMapRegion(null); }}
+              >
+                <X size={16} />
+              </button>
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-white/60 to-transparent rounded-full blur-3xl" />
               <div className="relative z-10">
                 <span className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white shadow-sm mb-3" style={{ background: REGION_THEMES[selectedMapRegion as keyof typeof REGION_THEMES].gradient }}>
@@ -570,7 +640,7 @@ const ThailandEducationMap = () => {
   );
 };
 
-const GlassMarker = ({ region, logo, data, position, delay, theme, isActive, onClick, onHover, onLeave }: any) => {
+const GlassMarker = ({ region, logo, data, position, delay, theme, isActive, isHovered, onClick, onHover, onLeave }: any) => {
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.8 }}
@@ -580,6 +650,7 @@ const GlassMarker = ({ region, logo, data, position, delay, theme, isActive, onC
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
+      style={{ zIndex: isHovered || isActive ? 100 : 40 }} // Boost z-index on hover
     >
       <AnimatePresence mode="wait">
         {isActive ? (
@@ -590,8 +661,14 @@ const GlassMarker = ({ region, logo, data, position, delay, theme, isActive, onC
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             className="relative w-80 bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/50 overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+            onClick={onClick}
           >
+            <button 
+              className="absolute top-4 right-4 p-2 rounded-full bg-white/50 hover:bg-white text-slate-500 hover:text-red-500 transition-all z-20"
+              onClick={(e) => { e.stopPropagation(); onClick(e); }}
+            >
+              <X size={16} />
+            </button>
             <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full blur-3xl opacity-30" style={{ background: theme.color }} />
             <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-30" style={{ background: theme.color }} />
             <div className="relative z-10">
@@ -626,9 +703,17 @@ const GlassMarker = ({ region, logo, data, position, delay, theme, isActive, onC
               <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm" style={{ background: theme.color }} />
               <img src={logo} alt={data.nameEn} className="w-16 h-16 object-contain drop-shadow-md" />
             </div>
-            <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 absolute top-full mt-2 z-10">
+            
+            {/* Tooltip - Controlled by isHovered prop now */}
+            <div 
+              className={`absolute top-full mt-2 z-50 transition-all duration-300 transform ${
+                isHovered 
+                  ? 'opacity-100 translate-y-0 pointer-events-auto' 
+                  : 'opacity-0 translate-y-2 pointer-events-none'
+              }`}
+            >
               <div className="px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/40 shadow-xl text-center min-w-[150px]">
-                <p className="text-sm font-bold text-slate-800 whitespace-nowrap">{data.name_en}</p>
+                <p className="text-sm font-bold text-slate-800 whitespace-nowrap">{data.name_th}</p>
                 <p className="text-xs text-slate-500 text-center">{data.region_th}</p>
               </div>
             </div>

@@ -5,11 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Loader2, Plus, Edit, Trash2, Eye, EyeOff, GripVertical, CheckCircle2, XCircle, Globe, EyeOffIcon } from 'lucide-react';
+import { Loader2, Plus, Edit, Trash2, Eye, EyeOff, GripVertical, CheckCircle2, XCircle, Globe, EyeOffIcon, Map as MapIcon } from 'lucide-react';
 import { ProjectForm } from '@/components/admin/ProjectForm';
 import { EducationForm } from '@/components/admin/EducationForm';
 import { ExperienceForm } from '@/components/admin/ExperienceForm';
 import { PersonalInfoForm } from '@/components/admin/PersonalInfoForm';
+import { MapSettingsManager } from '@/components/admin/MapSettingsManager';
 import { motion } from 'framer-motion';
 import {
   AlertDialog,
@@ -203,7 +204,7 @@ export const ContentManager = () => {
       </div>
 
       <Tabs defaultValue="projects" className="space-y-6">
-        <TabsList className="glass p-1.5 rounded-2xl w-full grid grid-cols-2 lg:grid-cols-4 gap-1 border border-white/20 dark:border-white/10 shadow-lg">
+        <TabsList className="glass p-1.5 rounded-2xl w-full grid grid-cols-2 lg:grid-cols-5 gap-1 border border-white/20 dark:border-white/10 shadow-lg">
           <TabsTrigger 
             value="projects" 
             className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
@@ -243,6 +244,18 @@ export const ContentManager = () => {
           >
             <span className="flex items-center gap-2">
               Personal
+            </span>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="map" 
+            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+          >
+            <span className="flex items-center gap-2">
+              <MapIcon className="w-4 h-4" />
+              Map
+              <Badge variant="secondary" className="ml-1 hidden md:inline-flex bg-red-500/10 text-red-500 border-red-500/20 shadow-sm">
+                New
+              </Badge>
             </span>
           </TabsTrigger>
         </TabsList>
@@ -519,6 +532,16 @@ export const ContentManager = () => {
                 />
               </CardContent>
             </Card>
+          </motion.div>
+        </TabsContent>
+
+        {/* Map Tab */}
+        <TabsContent value="map">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <MapSettingsManager />
           </motion.div>
         </TabsContent>
       </Tabs>
