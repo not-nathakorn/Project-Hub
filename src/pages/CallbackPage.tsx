@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const CallbackPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { authenticate } = useAuth();
 
   useEffect(() => {
     // Security Check: Ensure we actually received a callback from the server
@@ -19,7 +21,9 @@ export const CallbackPage = () => {
       // For now, we assume if the user reaches this page with params, the auth was successful.
       // We set a token in localStorage to persist the session.
       const token = searchParams.get('token') || searchParams.get('access_token') || 'authenticated';
-      localStorage.setItem('auth_token', token);
+      
+      // Update auth context state
+      authenticate(token);
       
       // Redirect to the admin dashboard
       navigate('/admin');
@@ -29,7 +33,7 @@ export const CallbackPage = () => {
       console.error("Security Alert: Invalid callback attempt");
       navigate('/'); 
     }
-  }, [navigate, searchParams]);
+  }, [navigate, searchParams, authenticate]);
 
   return (
     <div className="flex items-center justify-center h-screen">

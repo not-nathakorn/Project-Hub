@@ -1,21 +1,24 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   login: () => void;
   logout: () => void;
+  authenticate: (token: string) => void;
   isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Check if user is already logged in (e.g., check localStorage)
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem("auth_token");
     if (token) {
       setIsAuthenticated(true);
     }
@@ -34,19 +37,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Construct login URL
     // Appending /login to ensure we hit the login page, not the landing page
-    const targetUrl = `${authUrl}/login?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    
+    const targetUrl = `${authUrl}/login?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
+
     window.location.href = targetUrl;
   };
 
+  const authenticate = (token: string) => {
+    localStorage.setItem("auth_token", token);
+    setIsAuthenticated(true);
+  };
+
   const logout = () => {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem("auth_token");
     setIsAuthenticated(false);
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, authenticate, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -55,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
