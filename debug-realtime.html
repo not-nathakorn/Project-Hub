@@ -1,201 +1,253 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Debug: Realtime Test</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #0f172a;
-      color: #e2e8f0;
-    }
-    .container {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-    h1 { color: #60a5fa; }
-    h2 { color: #34d399; margin-top: 0; }
-    .status { 
-      padding: 12px;
-      border-radius: 8px;
-      margin: 10px 0;
-      font-family: 'Courier New', monospace;
-    }
-    .success { background: #065f46; border-left: 4px solid #10b981; }
-    .error { background: #7f1d1d; border-left: 4px solid #ef4444; }
-    .info { background: #1e3a8a; border-left: 4px solid #3b82f6; }
-    .warning { background: #78350f; border-left: 4px solid #f59e0b; }
-    .data-item {
-      background: #334155;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border-left: 3px solid #60a5fa;
-    }
-    .visible { border-left-color: #10b981; }
-    .hidden { border-left-color: #6b7280; opacity: 0.7; }
-    button {
-      background: #3b82f6;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 5px;
-    }
-    button:hover { background: #2563eb; }
-    .log {
-      background: #0f172a;
-      padding: 12px;
-      border-radius: 6px;
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      max-height: 300px;
-      overflow-y: auto;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <h1>🔍 Supabase Realtime Debug Tool</h1>
-  
-  <div class="container">
-    <h2>📊 Connection Status</h2>
-    <div id="connection-status" class="status info">กำลังเชื่อมต่อ...</div>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug: Realtime Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      .container {
+        background: #1e293b;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+      h1 {
+        color: #60a5fa;
+      }
+      h2 {
+        color: #34d399;
+        margin-top: 0;
+      }
+      .status {
+        padding: 12px;
+        border-radius: 8px;
+        margin: 10px 0;
+        font-family: "Courier New", monospace;
+      }
+      .success {
+        background: #065f46;
+        border-left: 4px solid #10b981;
+      }
+      .error {
+        background: #7f1d1d;
+        border-left: 4px solid #ef4444;
+      }
+      .info {
+        background: #1e3a8a;
+        border-left: 4px solid #3b82f6;
+      }
+      .warning {
+        background: #78350f;
+        border-left: 4px solid #f59e0b;
+      }
+      .data-item {
+        background: #334155;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border-left: 3px solid #60a5fa;
+      }
+      .visible {
+        border-left-color: #10b981;
+      }
+      .hidden {
+        border-left-color: #6b7280;
+        opacity: 0.7;
+      }
+      button {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background: #2563eb;
+      }
+      .log {
+        background: #0f172a;
+        padding: 12px;
+        border-radius: 6px;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔍 Supabase Realtime Debug Tool</h1>
 
-  <div class="container">
-    <h2>🎓 Education Data</h2>
-    <button onclick="fetchEducation()">🔄 Refresh Data</button>
-    <div id="education-data"></div>
-  </div>
+    <div class="container">
+      <h2>📊 Connection Status</h2>
+      <div id="connection-status" class="status info">กำลังเชื่อมต่อ...</div>
+    </div>
 
-  <div class="container">
-    <h2>📡 Realtime Events</h2>
-    <button onclick="clearLogs()">🗑️ Clear Logs</button>
-    <div id="realtime-log" class="log"></div>
-  </div>
+    <div class="container">
+      <h2>🎓 Education Data</h2>
+      <button onclick="fetchEducation()">🔄 Refresh Data</button>
+      <div id="education-data"></div>
+    </div>
 
-  <script>
-    // Supabase config
-    const SUPABASE_URL = 'https://tncaevvnicaygulracft.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuY2FldnZuaWNheWd1bHJhY2Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MTU5NDgsImV4cCI6MjA4MDA5MTk0OH0.wKhD7t7mK_rmCiKZwS97ZTQhlcWk-BeAc208oCSsg1s';
+    <div class="container">
+      <h2>📡 Realtime Events</h2>
+      <button onclick="clearLogs()">🗑️ Clear Logs</button>
+      <div id="realtime-log" class="log"></div>
+    </div>
 
-    const { createClient } = supabase;
-    const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <script>
+      // Supabase config
+      const SUPABASE_URL = "https://tncaevvnicaygulracft.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuY2FldnZuaWNheWd1bHJhY2Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1MTU5NDgsImV4cCI6MjA4MDA5MTk0OH0.wKhD7t7mK_rmCiKZwS97ZTQhlcWk-BeAc208oCSsg1s";
 
-    const statusEl = document.getElementById('connection-status');
-    const educationEl = document.getElementById('education-data');
-    const logEl = document.getElementById('realtime-log');
+      const { createClient } = supabase;
+      const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    function log(message, type = 'info') {
-      const time = new Date().toLocaleTimeString('th-TH');
-      const color = {
-        info: '#3b82f6',
-        success: '#10b981',
-        error: '#ef4444',
-        warning: '#f59e0b'
-      }[type] || '#3b82f6';
-      
-      logEl.innerHTML += `<div style="color: ${color}">[${time}] ${message}</div>`;
-      logEl.scrollTop = logEl.scrollHeight;
-      console.log(`[${time}] ${message}`);
-    }
+      const statusEl = document.getElementById("connection-status");
+      const educationEl = document.getElementById("education-data");
+      const logEl = document.getElementById("realtime-log");
 
-    function clearLogs() {
-      logEl.innerHTML = '';
-      log('Logs cleared', 'info');
-    }
+      function escapeHtml(text) {
+        if (text == null) return "";
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
 
-    async function fetchEducation() {
-      try {
-        log('🔄 Fetching education data...', 'info');
-        
-        const { data, error } = await client
-          .from('education')
-          .select('*')
-          .order('order_index', { ascending: true });
+      function log(message, type = "info") {
+        const time = new Date().toLocaleTimeString("th-TH");
+        const color =
+          {
+            info: "#3b82f6",
+            success: "#10b981",
+            error: "#ef4444",
+            warning: "#f59e0b",
+          }[type] || "#3b82f6";
 
-        if (error) throw error;
+        const div = document.createElement("div");
+        div.style.color = color;
+        div.textContent = `[${time}] ${message}`;
+        logEl.appendChild(div);
+        logEl.scrollTop = logEl.scrollHeight;
+        console.log(`[${time}] ${message}`);
+      }
 
-        log(`✅ Fetched ${data.length} records`, 'success');
-        
-        educationEl.innerHTML = data.map(item => `
-          <div class="data-item ${item.is_visible ? 'visible' : 'hidden'}">
-            <strong>${item.title_th}</strong> (${item.year})
+      function clearLogs() {
+        logEl.innerHTML = "";
+        log("Logs cleared", "info");
+      }
+
+      async function fetchEducation() {
+        try {
+          log("🔄 Fetching education data...", "info");
+
+          const { data, error } = await client
+            .from("education")
+            .select("*")
+            .order("order_index", { ascending: true });
+
+          if (error) throw error;
+
+          log(`✅ Fetched ${data.length} records`, "success");
+
+          educationEl.innerHTML = data
+            .map(
+              (item) => `
+          <div class="data-item ${item.is_visible ? "visible" : "hidden"}">
+            <strong>${escapeHtml(item.title_th)}</strong> (${escapeHtml(
+                item.year
+              )})
             <br>
             <small>
-              ${item.is_visible ? '🌐 แสดงบนเว็บ' : '👁️ ซ่อนอยู่'} | 
-              Order: ${item.order_index} | 
-              ${item.badge || 'No badge'}
+              ${item.is_visible ? "🌐 แสดงบนเว็บ" : "👁️ ซ่อนอยู่"} | 
+              Order: ${escapeHtml(item.order_index)} | 
+              ${escapeHtml(item.badge || "No badge")}
             </small>
           </div>
-        `).join('');
+        `
+            )
+            .join("");
 
-        // Show visible count
-        const visibleCount = data.filter(d => d.is_visible).length;
-        log(`📊 Visible: ${visibleCount}/${data.length}`, 'info');
-        
-      } catch (error) {
-        log(`❌ Error: ${error.message}`, 'error');
-        educationEl.innerHTML = `<div class="status error">Error: ${error.message}</div>`;
+          // Show visible count
+          const visibleCount = data.filter((d) => d.is_visible).length;
+          log(`📊 Visible: ${visibleCount}/${data.length}`, "info");
+        } catch (error) {
+          log(`❌ Error: ${error.message}`, "error");
+          educationEl.innerHTML = "";
+          const errorDiv = document.createElement("div");
+          errorDiv.className = "status error";
+          errorDiv.textContent = `Error: ${error.message}`;
+          educationEl.appendChild(errorDiv);
+        }
       }
-    }
 
-    // Setup Realtime
-    async function setupRealtime() {
-      try {
-        log('📡 Setting up Realtime subscription...', 'info');
-        
-        const channel = client
-          .channel('education-changes')
-          .on('postgres_changes',
-            { event: '*', schema: 'public', table: 'education' },
-            (payload) => {
-              log(`🔔 Realtime event: ${payload.eventType}`, 'success');
-              log(`   Data: ${JSON.stringify(payload.new || payload.old)}`, 'info');
-              fetchEducation(); // Auto-refresh
-            }
-          )
-          .subscribe((status) => {
-            if (status === 'SUBSCRIBED') {
-              log('✅ Realtime connected!', 'success');
-              statusEl.className = 'status success';
-              statusEl.textContent = '✅ Connected to Supabase Realtime';
-            } else if (status === 'CHANNEL_ERROR') {
-              log('❌ Realtime connection error', 'error');
-              statusEl.className = 'status error';
-              statusEl.textContent = '❌ Realtime Error - Check if Realtime is enabled in Supabase';
-            } else {
-              log(`ℹ️ Status: ${status}`, 'info');
-            }
-          });
+      // Setup Realtime
+      async function setupRealtime() {
+        try {
+          log("📡 Setting up Realtime subscription...", "info");
 
-      } catch (error) {
-        log(`❌ Realtime setup error: ${error.message}`, 'error');
-        statusEl.className = 'status error';
-        statusEl.textContent = `❌ Error: ${error.message}`;
+          const channel = client
+            .channel("education-changes")
+            .on(
+              "postgres_changes",
+              { event: "*", schema: "public", table: "education" },
+              (payload) => {
+                log(`🔔 Realtime event: ${payload.eventType}`, "success");
+                log(
+                  `   Data: ${JSON.stringify(payload.new || payload.old)}`,
+                  "info"
+                );
+                fetchEducation(); // Auto-refresh
+              }
+            )
+            .subscribe((status) => {
+              if (status === "SUBSCRIBED") {
+                log("✅ Realtime connected!", "success");
+                statusEl.className = "status success";
+                statusEl.textContent = "✅ Connected to Supabase Realtime";
+              } else if (status === "CHANNEL_ERROR") {
+                log("❌ Realtime connection error", "error");
+                statusEl.className = "status error";
+                statusEl.textContent =
+                  "❌ Realtime Error - Check if Realtime is enabled in Supabase";
+              } else {
+                log(`ℹ️ Status: ${status}`, "info");
+              }
+            });
+        } catch (error) {
+          log(`❌ Realtime setup error: ${error.message}`, "error");
+          statusEl.className = "status error";
+          statusEl.textContent = `❌ Error: ${error.message}`;
+        }
       }
-    }
 
-    // Initialize
-    (async () => {
-      log('🚀 Initializing...', 'info');
-      statusEl.className = 'status success';
-      statusEl.textContent = '✅ Connected to Supabase';
-      
-      await fetchEducation();
-      await setupRealtime();
-      
-      log('✅ Ready! Try toggling visibility in Admin Dashboard', 'success');
-    })();
-  </script>
-</body>
+      // Initialize
+      (async () => {
+        log("🚀 Initializing...", "info");
+        statusEl.className = "status success";
+        statusEl.textContent = "✅ Connected to Supabase";
+
+        await fetchEducation();
+        await setupRealtime();
+
+        log("✅ Ready! Try toggling visibility in Admin Dashboard", "success");
+      })();
+    </script>
+  </body>
 </html>

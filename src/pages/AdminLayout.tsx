@@ -6,13 +6,16 @@ import {
   IconLayoutDashboard,
   IconDatabaseEdit,
   IconLogout,
+  IconHome,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 import { ContentManager } from "@/components/admin/ContentManager";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function AdminLayout() {
+  const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'content' | 'settings'>('dashboard');
   const [open, setOpen] = useState(false);
 
@@ -42,11 +45,20 @@ export function AdminLayout() {
       onClick: () => setActiveTab('settings'),
     },
     {
-      label: "Logout",
+      label: "Back to Home",
       href: "/",
+      icon: (
+        <IconHome className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+      onClick: () => {}, // href handles navigation
+    },
+    {
+      label: "Logout",
+      href: "#",
       icon: (
         <IconLogout className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
+      onClick: () => logout(),
     },
   ];
 
@@ -54,11 +66,11 @@ export function AdminLayout() {
     <div
       className={cn(
         "flex flex-col md:flex-row w-full flex-1 mx-auto overflow-hidden",
-        "h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100 dark:from-neutral-950 dark:via-blue-950/20 dark:to-neutral-950"
+        "h-screen bg-slate-50 dark:bg-[#0B1120]" 
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10 glass border-r border-white/20 dark:border-white/10">
+        <SidebarBody className="justify-between gap-10 bg-white dark:bg-[#0F172A] border-r border-slate-200 dark:border-slate-800">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
@@ -90,7 +102,7 @@ export function AdminLayout() {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass rounded-2xl p-6 border border-white/20 dark:border-white/10 shadow-xl"
+            className="bg-white dark:bg-[#1E293B] rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm"
           >
             <div className="flex items-center justify-between">
               <div>

@@ -85,7 +85,7 @@ export const ExperienceForm = ({ experience, onClose, onSave }: ExperienceFormPr
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#1E293B] border-slate-200 dark:border-slate-700">
         <DialogHeader>
           <DialogTitle>{experience ? 'แก้ไขประสบการณ์' : 'เพิ่มประสบการณ์ใหม่'}</DialogTitle>
           <DialogDescription>

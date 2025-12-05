@@ -6,12 +6,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { NavigationDock } from "@/components/NavigationDock";
-import Index from "./pages/Index";
-import { AdminLayout } from "./pages/AdminLayout";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import NotFound from "./pages/NotFound";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import LazyFallback from "@/components/LazyFallback";
+import React from "react";
+
+// Lazy load pages to improve performance
+const Index = React.lazy(() => import("./pages/Index"));
+const AdminLayout = React.lazy(() => import("./pages/AdminLayout").then(module => ({ default: module.AdminLayout })));
+const CallbackPage = React.lazy(() => import("./pages/CallbackPage").then(module => ({ default: module.CallbackPage })));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -29,14 +36,23 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <AnalyticsTracker />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/admin" element={<AdminLayout />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <NavigationDock />
+            <AuthProvider>
+              <AnalyticsTracker />
+              <React.Suspense fallback={<LazyFallback />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/admin" element={
+                    <ProtectedRoute>
+                      <AdminLayout />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin/callback" element={<CallbackPage />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </React.Suspense>
+              <NavigationDock />
+            </AuthProvider>
           </BrowserRouter>
           <Analytics />
           <SpeedInsights />

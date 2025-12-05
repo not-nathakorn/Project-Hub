@@ -109,13 +109,7 @@ const Index = () => {
     };
   }, []);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen relative">
@@ -152,14 +146,28 @@ const Index = () => {
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {projects.map((project, index) => (
-              <ModernProjectCard
-                key={project.id}
-                {...project}
-                description={language === "th" ? project.description_th : project.description_en}
-                index={index}
-              />
-            ))}
+            {loading ? (
+              // Skeleton Loading for Projects
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="rounded-3xl overflow-hidden bg-white/5 border border-white/10 h-[400px] animate-pulse">
+                  <div className="h-48 bg-white/10" />
+                  <div className="p-6 space-y-4">
+                    <div className="h-6 bg-white/10 rounded w-3/4" />
+                    <div className="h-4 bg-white/10 rounded w-full" />
+                    <div className="h-4 bg-white/10 rounded w-2/3" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              projects.map((project, index) => (
+                <ModernProjectCard
+                  key={project.id}
+                  {...project}
+                  description={language === "th" ? project.description_th : project.description_en}
+                  index={index}
+                />
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -308,17 +316,31 @@ const Index = () => {
           </motion.div>
 
           <div>
-            {education.map((item, index) => (
-              <ModernTimelineItem
-                key={item.id}
-                year={item.year}
-                title={language === "th" ? item.title_th : item.title_en}
-                subtitle={language === "th" ? item.subtitle_th : item.subtitle_en}
-                description={language === "th" ? item.description_th : item.description_en}
-                badge={item.badge}
-                index={index}
-              />
-            ))}
+            {loading ? (
+              // Skeleton Loading for Education
+              Array.from({ length: 2 }).map((_, i) => (
+                <div key={i} className="mb-8 pl-8 relative border-l border-white/10 animate-pulse">
+                  <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-white/10" />
+                  <div className="space-y-3">
+                    <div className="h-6 bg-white/10 rounded w-1/4" />
+                    <div className="h-8 bg-white/10 rounded w-3/4" />
+                    <div className="h-4 bg-white/10 rounded w-1/2" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              education.map((item, index) => (
+                <ModernTimelineItem
+                  key={item.id}
+                  year={item.year}
+                  title={language === "th" ? item.title_th : item.title_en}
+                  subtitle={language === "th" ? item.subtitle_th : item.subtitle_en}
+                  description={language === "th" ? item.description_th : item.description_en}
+                  badge={item.badge}
+                  index={index}
+                />
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -355,17 +377,31 @@ const Index = () => {
           </motion.div>
 
           <div>
-            {experience.map((item, index) => (
-              <ModernTimelineItem
-                key={item.id}
-                year={item.year}
-                title={language === "th" ? item.title_th : item.title_en}
-                subtitle={language === "th" ? item.subtitle_th : item.subtitle_en}
-                description={language === "th" ? item.description_th : item.description_en}
-                badge={item.badge}
-                index={index}
-              />
-            ))}
+            {loading ? (
+              // Skeleton Loading for Experience
+              Array.from({ length: 2 }).map((_, i) => (
+                <div key={i} className="mb-8 pl-8 relative border-l border-white/10 animate-pulse">
+                  <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-white/10" />
+                  <div className="space-y-3">
+                    <div className="h-6 bg-white/10 rounded w-1/4" />
+                    <div className="h-8 bg-white/10 rounded w-3/4" />
+                    <div className="h-4 bg-white/10 rounded w-1/2" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              experience.map((item, index) => (
+                <ModernTimelineItem
+                  key={item.id}
+                  year={item.year}
+                  title={language === "th" ? item.title_th : item.title_en}
+                  subtitle={language === "th" ? item.subtitle_th : item.subtitle_en}
+                  description={language === "th" ? item.description_th : item.description_en}
+                  badge={item.badge}
+                  index={index}
+                />
+              ))
+            )}
           </div>
         </div>
       </section>

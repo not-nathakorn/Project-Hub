@@ -158,7 +158,7 @@ export const AnalyticsDashboard = () => {
     <div className="space-y-8 p-2 md:p-4">
       {/* Header Actions */}
       <div className="flex justify-end gap-2">
-        <Button variant="outline" size="sm" onClick={fetchAnalytics} className="glass border-border/50">
+        <Button variant="outline" size="sm" onClick={fetchAnalytics} className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
           <RefreshCcw className="w-4 h-4 mr-2" />
           Refresh
         </Button>
@@ -179,7 +179,7 @@ export const AnalyticsDashboard = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass p-6 rounded-2xl border border-white/10 shadow-xl bg-white/5 backdrop-blur-lg"
+        className="bg-white dark:bg-[#1E293B] p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm"
       >
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
@@ -247,7 +247,7 @@ const Card = ({ title, value, icon, sub }: any) => (
   <motion.div 
     initial={{ opacity: 0, scale: 0.95 }}
     animate={{ opacity: 1, scale: 1 }}
-    className="glass p-6 rounded-2xl border border-white/10 shadow-lg bg-white/5 backdrop-blur-md"
+    className="bg-white dark:bg-[#1E293B] p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm"
   >
     <div className="flex justify-between items-start">
       <div>
@@ -270,7 +270,7 @@ const ListCard = ({ title, icon, data }: any) => (
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    className="glass p-6 rounded-2xl border border-white/10 shadow-lg bg-white/5 backdrop-blur-md"
+    className="bg-white dark:bg-[#1E293B] p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm"
   >
     <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground">
       {React.cloneElement(icon, { className: "w-5 h-5 text-primary" })}
@@ -278,7 +278,7 @@ const ListCard = ({ title, icon, data }: any) => (
     </h3>
     <div className="space-y-3">
       {data.map((item: any, i: number) => (
-        <div key={i} className="flex justify-between items-center p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5">
+        <div key={i} className="flex justify-between items-center p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border border-slate-100 dark:border-slate-700">
           <span className="text-sm font-medium text-foreground/80 truncate max-w-[70%]">{item.name}</span>
           <span className="text-xs font-bold bg-primary/20 text-primary px-2 py-1 rounded-lg">{item.count}</span>
         </div>

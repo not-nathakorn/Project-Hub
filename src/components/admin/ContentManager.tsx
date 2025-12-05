@@ -165,7 +165,7 @@ export const ContentManager = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
-          className="glass rounded-2xl p-6 border border-white/20 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+          className="bg-white dark:bg-[#1E293B] rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -185,7 +185,7 @@ export const ContentManager = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="glass rounded-2xl p-6 border border-white/20 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+          className="bg-white dark:bg-[#1E293B] rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -204,10 +204,10 @@ export const ContentManager = () => {
       </div>
 
       <Tabs defaultValue="projects" className="space-y-6">
-        <TabsList className="glass p-1.5 rounded-2xl w-full grid grid-cols-2 lg:grid-cols-5 gap-1 border border-white/20 dark:border-white/10 shadow-lg">
+        <TabsList className="bg-slate-100 dark:bg-slate-800/50 p-1.5 rounded-2xl w-full grid grid-cols-2 lg:grid-cols-5 gap-1 border border-slate-200 dark:border-slate-700">
           <TabsTrigger 
             value="projects" 
-            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+            className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all duration-300 rounded-xl"
           >
             <span className="flex items-center gap-2">
               Projects
@@ -218,7 +218,7 @@ export const ContentManager = () => {
           </TabsTrigger>
           <TabsTrigger 
             value="education" 
-            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+            className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all duration-300 rounded-xl"
           >
             <span className="flex items-center gap-2">
               Education
@@ -229,7 +229,7 @@ export const ContentManager = () => {
           </TabsTrigger>
           <TabsTrigger 
             value="experience" 
-            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+            className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all duration-300 rounded-xl"
           >
             <span className="flex items-center gap-2">
               Experience
@@ -240,7 +240,7 @@ export const ContentManager = () => {
           </TabsTrigger>
           <TabsTrigger 
             value="personal" 
-            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+            className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all duration-300 rounded-xl"
           >
             <span className="flex items-center gap-2">
               Personal
@@ -248,7 +248,7 @@ export const ContentManager = () => {
           </TabsTrigger>
           <TabsTrigger 
             value="map" 
-            className="data-[state=active]:glass-strong data-[state=active]:shadow-lg data-[state=active]:border data-[state=active]:border-white/30 transition-all duration-300 rounded-xl"
+            className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:text-foreground data-[state=active]:shadow-sm transition-all duration-300 rounded-xl"
           >
             <span className="flex items-center gap-2">
               <MapIcon className="w-4 h-4" />
@@ -285,8 +285,8 @@ export const ContentManager = () => {
                 transition={{ delay: index * 0.05 }}
                 className={`group relative flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.01] ${
                   project.is_visible 
-                    ? 'glass border-green-500/30 shadow-lg shadow-green-500/5 hover:shadow-green-500/10' 
-                    : 'glass border-white/10 opacity-60 hover:opacity-80'
+                    ? 'bg-white dark:bg-[#1E293B] border-green-500/30 shadow-sm hover:shadow-md' 
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-60 hover:opacity-80'
                 }`}
               >
                 <div className="flex items-center gap-4 flex-1">
@@ -377,8 +377,8 @@ export const ContentManager = () => {
                 transition={{ delay: index * 0.05 }}
                 className={`group relative flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.01] ${
                   edu.is_visible 
-                    ? 'glass border-blue-500/30 shadow-lg shadow-blue-500/5 hover:shadow-blue-500/10' 
-                    : 'glass border-white/10 opacity-60 hover:opacity-80'
+                    ? 'bg-white dark:bg-[#1E293B] border-blue-500/30 shadow-sm hover:shadow-md' 
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-60 hover:opacity-80'
                 }`}
               >
                 <div className="flex items-center gap-4 flex-1">
@@ -458,8 +458,8 @@ export const ContentManager = () => {
                 transition={{ delay: index * 0.05 }}
                 className={`group relative flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.01] ${
                   exp.is_visible 
-                    ? 'glass border-purple-500/30 shadow-lg shadow-purple-500/5 hover:shadow-purple-500/10' 
-                    : 'glass border-white/10 opacity-60 hover:opacity-80'
+                    ? 'bg-white dark:bg-[#1E293B] border-purple-500/30 shadow-sm hover:shadow-md' 
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-60 hover:opacity-80'
                 }`}
               >
                 <div className="flex items-center gap-4 flex-1">
@@ -520,8 +520,8 @@ export const ContentManager = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <Card className="glass border-white/20 dark:border-white/10 shadow-xl">
-              <CardHeader className="border-b border-white/10">
+            <Card className="bg-white dark:bg-[#1E293B] border-slate-200 dark:border-slate-700 shadow-sm">
+              <CardHeader className="border-b border-slate-100 dark:border-slate-800">
                 <CardTitle className="text-2xl gradient-text">Personal Information</CardTitle>
                 <CardDescription className="text-muted-foreground">Edit your personal details and skills</CardDescription>
               </CardHeader>

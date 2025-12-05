@@ -219,8 +219,8 @@ export const MapSettingsManager = () => {
   return (
     <div className="space-y-6">
       {/* Global Settings */}
-      <Card className="glass border-white/20 dark:border-white/10 shadow-xl">
-        <CardHeader className="border-b border-white/10">
+      <Card className="bg-white dark:bg-[#1E293B] border-slate-200 dark:border-slate-700 shadow-sm">
+        <CardHeader className="border-b border-slate-100 dark:border-slate-800">
           <CardTitle className="flex items-center gap-2 text-2xl gradient-text">
             <Map className="w-6 h-6 text-primary" />
             ตั้งค่าแผนที่หลัก
@@ -228,7 +228,7 @@ export const MapSettingsManager = () => {
           <CardDescription className="text-muted-foreground">ควบคุมการแสดงผลภาพรวมของแผนที่</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 pt-6">
-          <div className="flex items-center justify-between p-5 border border-white/10 rounded-xl bg-white/5 backdrop-blur-sm">
+          <div className="flex items-center justify-between p-5 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900/50">
             <div className="space-y-1">
               <Label htmlFor="map-visible" className="text-lg font-medium text-foreground">
                 แสดงแผนที่บนหน้าเว็บ
@@ -258,7 +258,7 @@ export const MapSettingsManager = () => {
                     className={`relative flex items-center space-x-3 p-4 border rounded-xl transition-all cursor-pointer overflow-hidden ${
                       isSelected 
                         ? 'bg-primary/10 border-primary/50 shadow-lg shadow-primary/5' 
-                        : 'bg-white/5 border-white/10 hover:bg-white/10'
+                        : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}
                     onClick={() => toggleUniversityEnabled(region.id)}
                   >
@@ -283,7 +283,7 @@ export const MapSettingsManager = () => {
             </div>
           </div>
 
-          <div className="flex justify-end pt-4 border-t border-white/10">
+          <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
             <Button 
               onClick={handleSaveSettings} 
               disabled={saving}
@@ -297,8 +297,8 @@ export const MapSettingsManager = () => {
       </Card>
 
       {/* University Details */}
-      <Card className="glass border-white/20 dark:border-white/10 shadow-xl">
-        <CardHeader className="border-b border-white/10">
+      <Card className="bg-white dark:bg-[#1E293B] border-slate-200 dark:border-slate-700 shadow-sm">
+        <CardHeader className="border-b border-slate-100 dark:border-slate-800">
           <CardTitle className="text-2xl gradient-text">ข้อมูลมหาวิทยาลัย</CardTitle>
           <CardDescription className="text-muted-foreground">จัดการข้อมูลรายละเอียดของแต่ละมหาวิทยาลัย</CardDescription>
         </CardHeader>
@@ -310,12 +310,12 @@ export const MapSettingsManager = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="relative group border border-white/10 rounded-2xl p-5 hover:shadow-lg transition-all bg-white/5 hover:bg-white/10"
+                className="relative group border border-slate-200 dark:border-slate-700 rounded-2xl p-5 hover:shadow-lg transition-all bg-white dark:bg-[#1E293B] hover:bg-slate-50 dark:hover:bg-slate-800/50"
                 style={{ borderLeft: `4px solid ${uni.color}` }}
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center overflow-hidden border border-white/10 shadow-inner">
+                    <div className="w-14 h-14 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-700 shadow-inner">
                       {uni.logo_url ? (
                         <img src={uni.logo_url} alt={uni.name_en} className="w-10 h-10 object-contain" />
                       ) : (
@@ -341,15 +341,15 @@ export const MapSettingsManager = () => {
                 </div>
 
                 <div className="space-y-2.5 text-sm">
-                  <div className="flex justify-between border-b border-white/5 pb-2">
+                  <div className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
                     <span className="text-muted-foreground">ระดับ:</span>
                     <span className="font-medium text-foreground">{uni.degree_level}</span>
                   </div>
-                  <div className="flex justify-between border-b border-white/5 pb-2">
+                  <div className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
                     <span className="text-muted-foreground">คณะ:</span>
                     <span className="font-medium text-right line-clamp-1 ml-4 text-foreground">{uni.faculty || '-'}</span>
                   </div>
-                  <div className="flex justify-between border-b border-white/5 pb-2">
+                  <div className="flex justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
                     <span className="text-muted-foreground">สาขา:</span>
                     <span className="font-medium text-right line-clamp-1 ml-4 text-foreground">{uni.major || '-'}</span>
                   </div>
@@ -362,7 +362,7 @@ export const MapSettingsManager = () => {
                 <div className="mt-5 flex items-center justify-between">
                   <Badge 
                     variant={uni.is_visible ? "default" : "secondary"}
-                    className={uni.is_visible ? "bg-green-500/20 text-green-500 hover:bg-green-500/30 border-0" : "bg-white/10 text-muted-foreground hover:bg-white/20 border-0"}
+                    className={uni.is_visible ? "bg-green-500/20 text-green-500 hover:bg-green-500/30 border-0" : "bg-slate-100 dark:bg-slate-800 text-muted-foreground hover:bg-slate-200 dark:hover:bg-slate-700 border-0"}
                   >
                     {uni.is_visible ? 'แสดงผล' : 'ซ่อน'}
                   </Badge>
@@ -378,7 +378,7 @@ export const MapSettingsManager = () => {
 
       {/* Edit Dialog */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-        <DialogContent className="max-w-2xl max-h-[90vh] glass border-white/20">
+        <DialogContent className="max-w-2xl max-h-[90vh] bg-white dark:bg-[#1E293B] border-slate-200 dark:border-slate-700">
           <DialogHeader>
             <DialogTitle className="text-2xl gradient-text">แก้ไขข้อมูลมหาวิทยาลัย</DialogTitle>
             <DialogDescription className="text-muted-foreground">
@@ -395,7 +395,7 @@ export const MapSettingsManager = () => {
                     <Input 
                       value={editingUniversity.name_th} 
                       onChange={(e) => setEditingUniversity({...editingUniversity, name_th: e.target.value})}
-                      className="bg-white/5 border-white/10 focus:border-primary/50"
+                      className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                     />
                   </div>
                   <div className="space-y-2">
@@ -403,7 +403,7 @@ export const MapSettingsManager = () => {
                     <Input 
                       value={editingUniversity.name_en} 
                       onChange={(e) => setEditingUniversity({...editingUniversity, name_en: e.target.value})}
-                      className="bg-white/5 border-white/10 focus:border-primary/50"
+                      className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                     />
                   </div>
                 </div>
@@ -415,7 +415,7 @@ export const MapSettingsManager = () => {
                       value={editingUniversity.degree_level} 
                       onChange={(e) => setEditingUniversity({...editingUniversity, degree_level: e.target.value})}
                       placeholder="เช่น ปริญญาตรี (B.Sc.)"
-                      className="bg-white/5 border-white/10 focus:border-primary/50"
+                      className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                     />
                   </div>
                   <div className="space-y-2">
@@ -424,7 +424,7 @@ export const MapSettingsManager = () => {
                       value={editingUniversity.year} 
                       onChange={(e) => setEditingUniversity({...editingUniversity, year: e.target.value})}
                       placeholder="เช่น 2021 - 2024"
-                      className="bg-white/5 border-white/10 focus:border-primary/50"
+                      className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                     />
                   </div>
                 </div>
@@ -434,7 +434,7 @@ export const MapSettingsManager = () => {
                   <Input 
                     value={editingUniversity.faculty || ''} 
                     onChange={(e) => setEditingUniversity({...editingUniversity, faculty: e.target.value})}
-                    className="bg-white/5 border-white/10 focus:border-primary/50"
+                    className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                   />
                 </div>
 
@@ -443,7 +443,7 @@ export const MapSettingsManager = () => {
                   <Input 
                     value={editingUniversity.major || ''} 
                     onChange={(e) => setEditingUniversity({...editingUniversity, major: e.target.value})}
-                    className="bg-white/5 border-white/10 focus:border-primary/50"
+                    className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                   />
                 </div>
 
@@ -455,12 +455,12 @@ export const MapSettingsManager = () => {
                         type="color" 
                         value={editingUniversity.color} 
                         onChange={(e) => setEditingUniversity({...editingUniversity, color: e.target.value})}
-                        className="w-12 h-10 p-1 cursor-pointer bg-white/5 border-white/10"
+                        className="w-12 h-10 p-1 cursor-pointer bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800"
                       />
                       <Input 
                         value={editingUniversity.color} 
                         onChange={(e) => setEditingUniversity({...editingUniversity, color: e.target.value})}
-                        className="bg-white/5 border-white/10 focus:border-primary/50"
+                        className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                       />
                     </div>
                   </div>
@@ -469,12 +469,12 @@ export const MapSettingsManager = () => {
                     <Input 
                       value={editingUniversity.logo_url || ''} 
                       onChange={(e) => setEditingUniversity({...editingUniversity, logo_url: e.target.value})}
-                      className="bg-white/5 border-white/10 focus:border-primary/50"
+                      className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:border-primary/50"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-2 pt-2 p-4 rounded-lg bg-white/5 border border-white/10">
+                <div className="flex items-center space-x-2 pt-2 p-4 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
                   <Switch
                     id="uni-visible"
                     checked={editingUniversity.is_visible}
@@ -488,7 +488,7 @@ export const MapSettingsManager = () => {
           )}
 
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowEditDialog(false)} className="bg-transparent border-white/10 hover:bg-white/10">ยกเลิก</Button>
+            <Button variant="outline" onClick={() => setShowEditDialog(false)} className="bg-transparent border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">ยกเลิก</Button>
             <Button type="submit" form="edit-uni-form" disabled={saving} className="bg-primary hover:bg-primary/90">
               {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               บันทึกการเปลี่ยนแปลง
