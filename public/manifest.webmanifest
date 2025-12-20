@@ -3,8 +3,8 @@
   "short_name": "CodeX",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F5F7FA",
-  "theme_color": "#F5F7FA",
+  "background_color": "#DBEAFE",
+  "theme_color": "#DBEAFE",
   "icons": [
     {
       "src": "/Logo.png",

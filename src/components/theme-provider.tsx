@@ -21,8 +21,10 @@ const initialState: ThemeProviderState = {
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 // Theme colors for status bar (must match index.css background)
+// Light mode uses soft blue to blend with gradient background
+// Dark mode uses deep slate-900
 const THEME_COLORS = {
-  light: "#f6f9fc",  // Light mode background (soft blue)
+  light: "#DBEAFE",  // Light blue (matches gradient top - blue-100)
   dark: "#0f172a",   // Dark mode background (slate-900)
 }
 
