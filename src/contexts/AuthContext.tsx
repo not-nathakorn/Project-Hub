@@ -11,7 +11,7 @@ interface AuthContextType {
   role: string | null;
   isAuthenticated: boolean;
   login: () => void;
-  loginWithRole: (role: "admin" | "client" | "all") => void;
+  loginWithRole: (role: "admin" | "client" | "all", returnTo?: string) => void;
   loginForAdmins: () => void;
   loginForUsers: () => void;
   logout: () => void;
@@ -30,7 +30,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const REDIRECT_URI = import.meta.env.VITE_BLACKBOX_REDIRECT_URI || window.location.origin + "/callback";
 
   // ✅ Verify session with server on mount (No local cache)
+  // Skip on callback page to prevent race condition with code exchange
   const initAuth = useCallback(async () => {
+    // Check if we're on callback page with auth code (code exchange in progress)
+    const currentPath = window.location.pathname;
+    const hasAuthCode = new URLSearchParams(window.location.search).has('code');
+    
+    // Skip auth check on callback pages when code is present
+    // This prevents race condition where checkAuth runs before token exchange
+    if ((currentPath === '/callback' || currentPath === '/admin/callback') && hasAuthCode) {
+      console.log('🔐 Skipping auth check on callback page (code exchange in progress)');
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
     try {
       // Always fetch fresh data from server (HttpOnly Cookie)
@@ -61,12 +74,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // - "admin" = Admin Only (shows amber badge)
   // - "client" = Users Only (shows blue badge)
   // - "all" = All Users (shows green badge)
-  const loginWithRole = useCallback((requiredRole: "admin" | "client" | "all" = "all") => {
+  const loginWithRole = useCallback((requiredRole: "admin" | "client" | "all" = "all", returnTo?: string) => {
     if (!CLIENT_ID) {
       console.error("VITE_BLACKBOX_CLIENT_ID missing");
       return;
     }
-    window.location.href = `${AUTH_URL}/login?client_id=${CLIENT_ID}&required_role=${requiredRole}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    // Use returnTo param, current path, or default to "/"
+    const state = returnTo || window.location.pathname || "/";
+    window.location.href = `${AUTH_URL}/login?client_id=${CLIENT_ID}&required_role=${requiredRole}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${encodeURIComponent(state)}`;
   }, [AUTH_URL, CLIENT_ID, REDIRECT_URI]);
 
   // Shortcut for admin-only pages
