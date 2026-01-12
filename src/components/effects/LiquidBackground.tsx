@@ -3,7 +3,7 @@ import React from 'react';
 export const LiquidBackground = () => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#EBF4FF] to-white dark:from-neutral-950 dark:to-black transition-colors duration-300" />
+
       <div className="absolute inset-0" style={{ 
         maskImage: 'linear-gradient(180deg, transparent 0, #000 150px, #000 calc(100% - 150px), transparent 100%)',
         WebkitMaskImage: 'linear-gradient(180deg, transparent 0, #000 150px, #000 calc(100% - 150px), transparent 100%)'

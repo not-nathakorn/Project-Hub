@@ -101,45 +101,24 @@
     scroll-behavior: smooth;
     overscroll-behavior: none;
     height: 100%;
-    /* ใช้สีเดียวกับ Gradient เริ่มต้นเป็นพื้นหลัง Fallback ชั้นสุดท้าย (กันเหนียวสุดๆ) */
-    background-color: hsl(213 100% 96%);
-  }
-
-  /* Dark mode fallback color */
-  html.dark {
-    background-color: hsl(0 0% 4%);
-  }
-
-  /* สร้าง Fixed Gradient Background แบบ "ล้นจอ" (Oversized) */
-  body::before {
-    content: "";
-    position: fixed;
-    /* ขยายให้เกินจอทั้งบนและล่าง เพื่อกันขอบขาวเวลา Browser Bar ขยับ */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    z-index: -50;
+    min-height: 100dvh;
     
+    /* Main Background Gradient - Moved to HTML for native overscroll handling */
     background: linear-gradient(
       180deg,
-      hsl(213 100% 96%) 0%,
-      hsl(0 0% 100%) 100%
+      #EBF4FF 0%,
+      #FFFFFF 100%
     );
-    transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    /* ป้องกันการกระพริบบน iOS */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0); 
+    background-repeat: no-repeat;
+    background-attachment: scroll; /* Allow overscroll usage */
   }
 
   /* Dark mode gradient */
-  html.dark body::before {
+  html.dark {
     background: linear-gradient(
       180deg,
-      hsl(0 0% 4%) 0%,
-      hsl(0 0% 0%) 100%
+      #0a0a0a 0%,
+      #000000 100%
     );
   }
 

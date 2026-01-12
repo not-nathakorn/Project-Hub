@@ -6,37 +6,37 @@ export function ThemeColorManager() {
 
   useEffect(() => {
     const updateThemeColor = () => {
-      // Determine the current active theme (system or explicit)
-      let activeTheme = theme;
-      if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light';
-        activeTheme = systemTheme;
-      }
+      // Small timeout to ensure DOM/Classes are updated first
+      setTimeout(() => {
+        // Determine the current active theme (system or explicit)
+        let activeTheme = theme;
+        if (theme === 'system') {
+          const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+          activeTheme = systemTheme;
+        }
 
-      // Define colors
-      const lightColor = '#EBF4FF'; // Top status bar color for light mode
-      const darkColor = '#0a0a0a';  // Top status bar color for dark mode
+        // Define colors
+        const lightColor = '#EBF4FF'; // Top status bar color for light mode
+        const darkColor = '#0a0a0a';  // Top status bar color for dark mode
 
-      const color = activeTheme === 'dark' ? darkColor : lightColor;
+        const color = activeTheme === 'dark' ? darkColor : lightColor;
 
-      // Aggressively clean up existing meta tags to prevent conflicts
-      const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
-      existingMetas.forEach(meta => {
-        // Remove media attribute to make it unconditional
-        meta.removeAttribute('media');
-        // Update content
-        meta.setAttribute('content', color);
-      });
+        // Aggressively clean up existing meta tags to prevent conflicts
+        const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
+        existingMetas.forEach(meta => {
+          meta.removeAttribute('media');
+          meta.setAttribute('content', color);
+        });
 
-      // If no tag exists (rare), create one
-      if (existingMetas.length === 0) {
-         const newMeta = document.createElement('meta');
-         newMeta.setAttribute('name', 'theme-color');
-         newMeta.setAttribute('content', color);
-         document.head.appendChild(newMeta);
-      }
+        if (existingMetas.length === 0) {
+           const newMeta = document.createElement('meta');
+           newMeta.setAttribute('name', 'theme-color');
+           newMeta.setAttribute('content', color);
+           document.head.appendChild(newMeta);
+        }
+      }, 10);
     };
 
     updateThemeColor();
