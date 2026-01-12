@@ -9,7 +9,7 @@ const LazyFallback: React.FC<LazyFallbackProps> = ({
   message = "กำลังโหลด...",
 }) => {
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-[#EBF4FF] dark:bg-black transition-colors duration-500">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:bg-none dark:bg-black transition-colors duration-500">
       <div className="w-full max-w-2xl animate-fade-in">
         {/* Main loading card with glass effect */}
         <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 dark:border-slate-700/20 p-8 animate-pulse-glow">

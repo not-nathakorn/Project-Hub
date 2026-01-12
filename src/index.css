@@ -102,9 +102,9 @@
     overscroll-behavior: none;
     height: 100%;
     min-height: 100dvh;
-    
+
     /* Base Color for Overscroll Areas (Top/Bottom) */
-    background-color: #EBF4FF; 
+    background-color: #ebf4ff;
   }
 
   /* Dark mode preference query (Pre-JS loading fallback) - REMOVED to prevent conflict with manual light mode */
@@ -118,26 +118,30 @@
   /* Body settings */
   body {
     @apply bg-transparent text-foreground font-sans;
-    
+
     min-height: 100vh;
     min-height: 100dvh;
     position: relative;
-    
-    overscroll-behavior: none; 
+
+    overscroll-behavior: none;
     overscroll-behavior-y: none;
-    
+
     overflow-x: hidden;
-    
+
     /* Ensure body is transparent so LiquidBackground is visible */
-    background-color: transparent !important;
-    
+    background-color: transparent;
+
     transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* HTML background handles the Safari overscroll color */
 
-
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display;
   }
 
@@ -316,7 +320,8 @@
   }
 
   @keyframes pulse-glow {
-    0%, 100% {
+    0%,
+    100% {
       box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
     }
     50% {
@@ -344,7 +349,7 @@
   /* ==================== */
   /* PWA / Mobile Utilities */
   /* ==================== */
-  
+
   /* Full Screen Height - ใช้ dvh แทน vh เพื่อความแม่นยำบนมือถือ */
   .h-screen-safe {
     height: 100vh;

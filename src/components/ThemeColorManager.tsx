@@ -6,8 +6,7 @@ export function ThemeColorManager() {
 
   useEffect(() => {
     const updateThemeColor = () => {
-      // Determine colors
-      // We want to update immediately to prevent visible lag
+      // 1. Determine the active theme (light/dark)
       let activeTheme = theme;
       if (theme === 'system') {
         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -16,31 +15,43 @@ export function ThemeColorManager() {
         activeTheme = systemTheme;
       }
 
+      // 2. Define exact colors
       const lightColor = '#EBF4FF';
       const darkColor = '#000000';
       const color = activeTheme === 'dark' ? darkColor : lightColor;
 
-      // Update meta tag
-      // Cleanest way: remove all, add one.
-      const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
-      existingMetas.forEach(meta => meta.remove());
+      // 3. Update or Create meta tag for theme-color (Mobile Browsers/PWA)
+      const metaName = 'theme-color';
+      let meta = document.querySelector(`meta[name="${metaName}"]`);
+      
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', metaName);
+        document.head.appendChild(meta);
+      }
+      
+      meta.setAttribute('content', color);
 
-      const newMeta = document.createElement('meta');
-      newMeta.setAttribute('name', 'theme-color');
-      newMeta.setAttribute('content', color);
-      document.head.appendChild(newMeta);
-
-      // Force update html background color for runtime consistency
+      // 4. Force HTML background color (Safari Overscroll / Fallback)
       document.documentElement.style.backgroundColor = color;
+      
+      // 5. Force Body background color (Double insurance for Safari Edge)
+      document.body.style.backgroundColor = color;
     };
 
+    // Run immediately
     updateThemeColor();
 
-    // Listen for system theme changes if using 'system'
+    // Listen for system changes if needed
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', updateThemeColor);
-
-    return () => mediaQuery.removeEventListener('change', updateThemeColor);
+    const handleSystemChange = () => {
+       if (theme === 'system') {
+         updateThemeColor();
+       }
+    };
+    
+    mediaQuery.addEventListener('change', handleSystemChange);
+    return () => mediaQuery.removeEventListener('change', handleSystemChange);
   }, [theme]);
 
   return null;

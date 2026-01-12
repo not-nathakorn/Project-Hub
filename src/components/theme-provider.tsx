@@ -20,27 +20,6 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
-// Theme colors for status bar (must match website background)
-// Light mode: soft blue to blend with gradient background
-// Dark mode: very dark to match dark theme
-const THEME_COLORS = {
-  light: "#EBF5FF",  // Very light blue (soft, blends with gradient)
-  dark: "#0a0a0a",   // Near black for dark mode
-}
-
-// Update theme-color meta tag for iOS/iPad status bar
-const updateThemeColor = (resolvedTheme: "light" | "dark") => {
-  // Remove existing theme-color meta tags
-  const existingMetas = document.querySelectorAll('meta[name="theme-color"]')
-  existingMetas.forEach(meta => meta.remove())
-  
-  // Create new theme-color meta tag
-  const meta = document.createElement('meta')
-  meta.name = 'theme-color'
-  meta.content = THEME_COLORS[resolvedTheme]
-  document.head.appendChild(meta)
-}
-
 export function ThemeProvider({
   children,
   defaultTheme = "system",
@@ -68,9 +47,6 @@ export function ThemeProvider({
     }
 
     root.classList.add(resolvedTheme)
-    
-    // ✅ Update theme-color for iOS/iPad status bar
-    updateThemeColor(resolvedTheme)
   }, [theme])
 
   // Listen for system theme changes when using "system" mode
@@ -84,7 +60,6 @@ export function ThemeProvider({
       const root = window.document.documentElement
       root.classList.remove("light", "dark")
       root.classList.add(resolvedTheme)
-      updateThemeColor(resolvedTheme)
     }
 
     mediaQuery.addEventListener("change", handleChange)
