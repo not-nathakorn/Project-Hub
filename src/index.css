@@ -102,24 +102,28 @@
     overscroll-behavior: none;
     transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* FIX: ให้ html มี Gradient เดียวกับ Body เพื่อ Status Bar ที่กลมกลืน */
+    /* FIX: ใช้สีพื้นตายตัวที่ตรงกับส่วนบนสุดของ Gradient ป้องกันขอบขาวเวลา Overscroll */
+    background-color: #f8fafc; /* hsl(210 40% 98%) */
     height: 100%;
-    background: linear-gradient(
-      135deg,
-      hsl(210 40% 98%) 0%,
-      hsl(200 50% 96%) 100%
-    );
-    background-attachment: fixed; /* ล็อก background ไม่ให้เลื่อนตาม */
   }
 
   /* Body settings */
   body {
     @apply bg-background text-foreground font-sans;
-    min-height: 100%;
+    
+    /* ใช้ min-height: 100dvh เพื่อให้ยืดเต็มจอจริงๆ บนมือถือ */
+    min-height: 100vh;
+    min-height: 100dvh;
+    
     overscroll-behavior: none; 
     overscroll-behavior-y: none;
-    /* ลบ background gradient ที่ซ้ำซ้อนจาก body หรือคงไว้ถ้าจำเป็น แต่ html สำคัญกว่าสำหรับ PWA */
-    background: transparent; /* ให้เห็น background ของ html */
+    
+    /* ใส่ Gradient ที่นี่แบบปกติ (ไม่ Fixed) เพื่อแก้ปัญหา Safari */
+    background: linear-gradient(
+      135deg,
+      hsl(210 40% 98%) 0%,
+      hsl(200 50% 96%) 100%
+    );
     
     overflow-x: hidden;
     transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
