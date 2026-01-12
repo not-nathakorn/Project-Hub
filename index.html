@@ -107,11 +107,14 @@
         try {
           var localTheme = localStorage.getItem('theme');
           var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
+          
           if (localTheme === 'dark' || (!localTheme && supportDarkMode)) {
             document.documentElement.classList.add('dark');
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000');
+            if (metaThemeColor) metaThemeColor.setAttribute('content', '#000000');
           } else {
             document.documentElement.classList.remove('dark');
+            if (metaThemeColor) metaThemeColor.setAttribute('content', '#EBF4FF');
           }
         } catch (e) {}
       })();
