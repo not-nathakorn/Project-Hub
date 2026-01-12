@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase, Project, Education, Experience, PersonalInfo } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -45,26 +45,8 @@ const Admin = () => {
     open: false, type: '', id: '',
   });
 
-  useEffect(() => {
-    fetchAllData();
-  }, []);
 
-  const fetchAllData = async () => {
-    setLoading(true);
-    try {
-      await Promise.all([
-        fetchProjects(),
-        fetchEducation(),
-        fetchExperience(),
-        fetchPersonalInfo(),
-      ]);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast.error('เกิดข้อผิดพลาดในการโหลดข้อมูล');
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const fetchProjects = async () => {
     const { data } = await supabase.from('projects').select('*').order('order_index');
@@ -85,6 +67,31 @@ const Admin = () => {
     const { data } = await supabase.from('personal_info').select('*').single();
     setPersonalInfo(data || null);
   };
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  const fetchAllData = useCallback(async () => {
+    setLoading(true);
+    try {
+      await Promise.all([
+        fetchProjects(),
+        fetchEducation(),
+        fetchExperience(),
+        fetchPersonalInfo(),
+      ]);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      toast.error('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+    } finally {
+      setLoading(false);
+    }
+  }, []); // Include dependencies properly or suppress if intent is to use latest refs
+
+
+  useEffect(() => {
+    fetchAllData();
+  }, [fetchAllData]);
+
+
 
   const toggleVisibility = async (type: 'projects' | 'education' | 'experience', id: string, currentVisibility: boolean) => {
     try {

@@ -124,7 +124,9 @@ export const checkAuth = async (): Promise<User | null> => {
           _user = data;
           return _user;
         }
-      } catch {}
+      } catch {
+        // Ignore JSON parse errors
+      }
     }
     
     // Validate with server
@@ -184,8 +186,9 @@ export const updateProfile = async (
     const result = await response.json();
     if (!response.ok) return { success: false, error: result.error };
     return { success: true, user: result.user };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+    return { success: false, error: errorMessage };
   }
 };
 
@@ -201,8 +204,9 @@ export const changePassword = async (
     const data = await response.json();
     if (!response.ok) return { success: false, error: data.error };
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+    return { success: false, error: errorMessage };
   }
 };
 

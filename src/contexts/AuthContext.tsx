@@ -85,7 +85,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const serverUser = await checkAuth();
       if (serverUser) setUser(serverUser);
-    } catch {}
+    } catch {
+      // Ignore refresh errors
+    }
   };
 
   // ✅ Set user and token directly from callback

@@ -15,7 +15,7 @@ export const ModernHero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center pt-48 md:pt-52 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col items-center pt-32 md:pt-40 overflow-hidden">
       {/* Background Effects */}
       <LiquidBackground />
       <Spotlight className="hidden md:block opacity-50" />
@@ -23,12 +23,12 @@ export const ModernHero = () => {
       {/* Content - z-0 เพื่อให้อยู่ใต้ Navbar (z-50) */}
       <div className="container mx-auto max-w-5xl relative z-0 px-4">
         <div className="text-center">
-          {/* Badge - เพิ่ม mt-20 เพื่อดันลงจาก Navbar */}
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-block mb-12 mt-20"
+            className="inline-block mb-8 mt-4"
           >
             <div className="relative">
               <motion.div

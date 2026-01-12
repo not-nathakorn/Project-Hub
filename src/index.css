@@ -96,27 +96,41 @@
     transition: none !important;
   }
 
-  /* HTML เป็นตัวจัดการพื้นหลังหลัก เพื่อให้เต็มจอและไม่มีขอบขาว */
+  /* HTML เป็น Container หลัก */
   html {
     scroll-behavior: smooth;
     overscroll-behavior: none;
-    
     height: 100%;
-    min-height: 100dvh; /* สำคัญ: ยืดตามความสูงจริงของ Browser UI */
-    
-    /* Light mode gradient */
+    /* ลบ Standard Background ออก แล้วใช้ Fixed Div แทน */
+    background-color: hsl(210 40% 98%); /* Fallback color set to light theme end */
+  }
+
+  /* Dark mode fallback color */
+  html.dark {
+    background-color: hsl(222 47% 5%);
+  }
+
+  /* สร้าง Fixed Gradient Background */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: -50; /* อยู่หลังสุด */
     background: linear-gradient(
       135deg,
       hsl(210 40% 98%) 0%,
       hsl(200 50% 96%) 100%
     );
-    
-    /* Smooth transition สำหรับ theme switching */
     transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
   }
 
-  /* Dark mode - ใช้ gradient เข้ม */
-  html.dark {
+  /* Dark mode gradient */
+  html.dark body::before {
     background: linear-gradient(
       135deg,
       hsl(0 0% 4%) 0%,
@@ -124,12 +138,12 @@
     );
   }
 
-  /* Body โปร่งใส และสูงเต็มจอตาม HTML */
+  /* Body settings */
   body {
     @apply bg-transparent text-foreground font-sans;
     
     min-height: 100vh;
-    min-height: 100dvh; /* Dynamic Viewport Height - ยืดตาม Address Bar */
+    min-height: 100dvh;
     position: relative;
     
     overscroll-behavior: none; 
@@ -137,9 +151,7 @@
     
     overflow-x: hidden;
     
-    /* Smooth transition for theme */
-    transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     /* PWA Safe Area */
     padding-bottom: env(safe-area-inset-bottom);
