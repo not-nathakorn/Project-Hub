@@ -15,7 +15,7 @@ export const ModernHero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center pt-24 md:pt-40 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col items-center pt-20 md:pt-40 overflow-hidden">
       {/* Background Effects */}
       <LiquidBackground />
       <Spotlight className="hidden md:block opacity-50" />

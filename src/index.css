@@ -101,25 +101,27 @@
     scroll-behavior: smooth;
     overscroll-behavior: none;
     height: 100%;
-    /* ลบ Standard Background ออก แล้วใช้ Fixed Div แทน */
-    background-color: hsl(210 40% 98%); /* Fallback color set to light theme end */
+    /* ใช้สีเดียวกับ Gradient เริ่มต้นเป็นพื้นหลัง Fallback ชั้นสุดท้าย (กันเหนียวสุดๆ) */
+    background-color: hsl(210 40% 98%);
   }
 
   /* Dark mode fallback color */
   html.dark {
-    background-color: hsl(222 47% 5%);
+    background-color: hsl(0 0% 4%);
   }
 
-  /* สร้าง Fixed Gradient Background */
+  /* สร้าง Fixed Gradient Background แบบ "ล้นจอ" (Oversized) */
   body::before {
     content: "";
     position: fixed;
-    top: 0;
+    /* ขยายให้เกินจอทั้งบนและล่าง เพื่อกันขอบขาวเวลา Browser Bar ขยับ */
+    top: -10vh;
     left: 0;
     width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    z-index: -50; /* อยู่หลังสุด */
+    height: 120vh; /* สูง 120% ของจอ */
+    height: 120dvh;
+    z-index: -50;
+    
     background: linear-gradient(
       135deg,
       hsl(210 40% 98%) 0%,
@@ -127,6 +129,9 @@
     );
     transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+    /* ป้องกันการกระพริบบน iOS */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0); 
   }
 
   /* Dark mode gradient */
