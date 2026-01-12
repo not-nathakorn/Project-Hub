@@ -1,12 +1,12 @@
 {
-  "name": "CodeX Portfolio",
-  "short_name": "CodeX",
+  "name": "Project Hub Portfolio",
+  "short_name": "Project Hub",
   "description": "Full Stack Developer Portfolio - Web & Mobile Development",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#EBF5FF",
-  "theme_color": "#EBF5FF",
+  "background_color": "#f8fafc",
+  "theme_color": "#f8fafc",
   "icons": [
     {
       "src": "/Logo.png",
