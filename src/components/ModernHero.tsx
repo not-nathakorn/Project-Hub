@@ -15,7 +15,7 @@ export const ModernHero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center pt-32 md:pt-40 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col items-center pt-24 md:pt-40 overflow-hidden">
       {/* Background Effects */}
       <LiquidBackground />
       <Spotlight className="hidden md:block opacity-50" />
@@ -28,7 +28,7 @@ export const ModernHero = () => {
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-block mb-8 mt-4"
+            className="inline-block mb-8"
           >
             <div className="relative">
               <motion.div
