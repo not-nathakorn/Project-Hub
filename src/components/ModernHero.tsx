@@ -15,13 +15,13 @@ export const ModernHero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center justify-start pt-32 md:pt-40 overflow-hidden pt-safe">
+    <section id="home" className="relative min-h-screen flex flex-col items-center pt-40 md:pt-44 overflow-hidden pt-safe">
       {/* Background Effects */}
       <LiquidBackground />
       <Spotlight className="hidden md:block opacity-50" />
 
       {/* Content */}
-      <div className="container mx-auto max-w-5xl relative z-10 flex-grow flex flex-col justify-center px-4 mt-12 md:mt-20">
+      <div className="container mx-auto max-w-5xl relative z-10 px-4">
         <div className="text-center">
           {/* Badge */}
           <motion.div
