@@ -39,7 +39,7 @@ export const ModernNavigation = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={cn(
-          "mt-4 md:mt-6 w-full max-w-7xl pointer-events-auto transition-all duration-300",
+          "mt-4 md:mt-6 w-full max-w-7xl pointer-events-auto transition-all duration-500",
           "bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md",
           "border border-white/50 dark:border-neutral-700/50",
           "rounded-full shadow-lg",

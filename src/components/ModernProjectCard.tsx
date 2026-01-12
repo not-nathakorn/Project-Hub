@@ -34,7 +34,7 @@ export const ModernProjectCard = ({
       <a href={url} target="_blank" rel="noopener noreferrer" className="block">
         {/* Card */}
         <motion.div
-          className="relative glass rounded-2xl p-4 md:p-6 overflow-hidden border border-border/50 transition-all duration-300"
+          className="relative glass rounded-2xl p-4 md:p-6 overflow-hidden border border-border/50 transition-all duration-500"
           whileHover={{
             scale: 1.02,
             y: -5,
