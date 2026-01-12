@@ -1,51 +1,62 @@
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
 
 export function ThemeColorManager() {
   const { theme } = useTheme();
+  const previousTheme = useRef<string | null>(null);
 
   useLayoutEffect(() => {
-    const updateThemeColor = () => {
-      // 1. Determine the active theme (light/dark)
-      let activeTheme = theme;
-      if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light';
-        activeTheme = systemTheme;
-      }
+    // Determine the active theme (light/dark)
+    let activeTheme: 'light' | 'dark' = 'light';
+    if (theme === 'system') {
+      activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    } else {
+      activeTheme = theme;
+    }
 
-      // 2. Define exact colors
-      const lightColor = '#EBF4FF';
-      const darkColor = '#000000';
-      const color = activeTheme === 'dark' ? darkColor : lightColor;
+    // Skip if theme hasn't actually changed (prevents unnecessary DOM thrashing)
+    if (previousTheme.current === activeTheme) {
+      return;
+    }
+    previousTheme.current = activeTheme;
 
-      // 3. Update meta tag for theme-color (Aggressive replacement for Safari)
-      // Remove ALL existing tags to prevent conflicts or stale values
-      const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
-      existingMetas.forEach(m => m.remove());
+    // Define exact colors
+    const lightColor = '#EBF4FF';
+    const darkColor = '#000000';
+    const color = activeTheme === 'dark' ? darkColor : lightColor;
 
-      // Create fresh tag
-      const meta = document.createElement('meta');
-      meta.name = 'theme-color';
-      meta.content = color;
-      document.head.appendChild(meta);
+    // === AGGRESSIVE SAFARI FIX ===
+    // Safari caches the theme-color meta tag aggressively.
+    // The most reliable workaround is to:
+    // 1. Remove all existing meta tags
+    // 2. Force a tiny layout reflow
+    // 3. Insert a brand new meta tag
 
-      // 4. Force HTML background color (Safari Overscroll / Fallback)
-      document.documentElement.style.backgroundColor = color;
-      
-      // 5. Force Body background color (Double insurance for Safari Edge)
-      document.body.style.backgroundColor = color;
-    };
+    const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
+    existingMetas.forEach(m => m.remove());
 
-    // Run immediately
-    updateThemeColor();
+    // Force a synchronous reflow to ensure Safari processes the removal
+    // This is a necessary hack for Safari's stubborn caching behavior.
+    void document.documentElement.offsetHeight;
+
+    // Create and insert a fresh meta tag
+    const meta = document.createElement('meta');
+    meta.setAttribute('name', 'theme-color');
+    meta.setAttribute('content', color);
+    document.head.appendChild(meta);
+
+    // Force HTML and Body background color
+    document.documentElement.style.setProperty('background-color', color, 'important');
+    document.body.style.setProperty('background-color', color, 'important');
 
     // Listen for system changes if needed
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemChange = () => {
        if (theme === 'system') {
-         updateThemeColor();
+         // Reset previous theme to force re-run
+         previousTheme.current = null;
        }
     };
     
