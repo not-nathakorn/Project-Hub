@@ -23,20 +23,16 @@ export function ThemeColorManager() {
 
         const color = activeTheme === 'dark' ? darkColor : lightColor;
 
-        // Aggressively clean up existing meta tags to prevent conflicts
+        // NUCLEAR OPTION: Remove ALL existing theme-color tags to prevent conflicts
         const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
-        existingMetas.forEach(meta => {
-          meta.removeAttribute('media');
-          meta.setAttribute('content', color);
-        });
+        existingMetas.forEach(meta => meta.remove());
 
-        if (existingMetas.length === 0) {
-           const newMeta = document.createElement('meta');
-           newMeta.setAttribute('name', 'theme-color');
-           newMeta.setAttribute('content', color);
-           document.head.appendChild(newMeta);
-        }
-      }, 10);
+        // Create a single, clean, authoritative tag
+        const newMeta = document.createElement('meta');
+        newMeta.setAttribute('name', 'theme-color');
+        newMeta.setAttribute('content', color);
+        document.head.appendChild(newMeta);
+      }, 50); // Increased timeout significantly to beat any hydration/framework insertions
     };
 
     updateThemeColor();
