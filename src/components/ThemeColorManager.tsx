@@ -6,33 +6,29 @@ export function ThemeColorManager() {
 
   useEffect(() => {
     const updateThemeColor = () => {
-      // Small timeout to ensure DOM/Classes are updated first
-      setTimeout(() => {
-        // Determine the current active theme (system or explicit)
-        let activeTheme = theme;
-        if (theme === 'system') {
-          const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light';
-          activeTheme = systemTheme;
-        }
+      // Determine colors
+      // We want to update immediately to prevent visible lag
+      let activeTheme = theme;
+      if (theme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+        activeTheme = systemTheme;
+      }
 
-        // Define colors
-        const lightColor = '#EBF4FF'; // Top status bar color for light mode
-        const darkColor = '#0a0a0a';  // Top status bar color for dark mode
+      const lightColor = '#EBF4FF';
+      const darkColor = '#0a0a0a';
+      const color = activeTheme === 'dark' ? darkColor : lightColor;
 
-        const color = activeTheme === 'dark' ? darkColor : lightColor;
+      // Update meta tag
+      // Cleanest way: remove all, add one.
+      const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
+      existingMetas.forEach(meta => meta.remove());
 
-        // NUCLEAR OPTION: Remove ALL existing theme-color tags to prevent conflicts
-        const existingMetas = document.querySelectorAll('meta[name="theme-color"]');
-        existingMetas.forEach(meta => meta.remove());
-
-        // Create a single, clean, authoritative tag
-        const newMeta = document.createElement('meta');
-        newMeta.setAttribute('name', 'theme-color');
-        newMeta.setAttribute('content', color);
-        document.head.appendChild(newMeta);
-      }, 50); // Increased timeout significantly to beat any hydration/framework insertions
+      const newMeta = document.createElement('meta');
+      newMeta.setAttribute('name', 'theme-color');
+      newMeta.setAttribute('content', color);
+      document.head.appendChild(newMeta);
     };
 
     updateThemeColor();

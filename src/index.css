@@ -104,8 +104,8 @@
     min-height: 100dvh;
     
     /* Main Background Gradient - Moved to HTML for native overscroll handling */
-    background-color: #EBF4FF; /* Fallback for overscroll/loading */
-    background: linear-gradient(
+    background-color: #EBF4FF;
+    background-image: linear-gradient(
       180deg,
       #EBF4FF 0%,
       #FFFFFF 100%
@@ -116,8 +116,9 @@
 
   /* Dark mode gradient */
   html.dark {
-    background-color: #0a0a0a; /* Fallback for overscroll/loading */
-    background: linear-gradient(
+    /* Use Pure Black for background to ensure bottom overscroll is flawless */
+    background-color: #000000;
+    background-image: linear-gradient(
       180deg,
       #0a0a0a 0%,
       #000000 100%
