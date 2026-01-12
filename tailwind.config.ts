@@ -129,6 +129,7 @@ export default {
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         shimmer: "shimmer 3s linear infinite",
         blob: "blob 7s infinite",
+        rotate: "spin 1s linear infinite",
       },
       backgroundImage: {
         "gradient-primary":
