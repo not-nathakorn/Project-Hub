@@ -101,6 +101,21 @@
         ]
       }
     </script>
+    <!-- Theme Initialization Script (Prevent Flash of Incorrect Theme) -->
+    <script>
+      (function() {
+        try {
+          var localTheme = localStorage.getItem('theme');
+          var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (localTheme === 'dark' || (!localTheme && supportDarkMode)) {
+            document.documentElement.classList.add('dark');
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000000');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
 
   <body>
@@ -113,9 +128,19 @@
           height: 100vh;
           height: 100dvh;
           width: 100%;
-          transition: opacity 0.5s ease-out;
+          background-color: #EBF4FF; /* Light Mode Splash Bg */
+          transition: background-color 0.5s ease-out, opacity 0.5s ease-out;
           z-index: 9999;
+          position: fixed; /* Fix to cover everything */
+          top: 0;
+          left: 0;
         }
+        
+        /* Dark Mode Splash Override */
+        html.dark .initial-loader {
+          background-color: #000000; /* Dark Mode Splash Bg */
+        }
+        
         .initial-loader-content {
           position: relative;
           display: flex;

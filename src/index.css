@@ -105,9 +105,17 @@
     
     /* Base Color for Overscroll Areas (Top/Bottom) */
     background-color: #EBF4FF; 
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Dark mode base color */
+  /* Dark mode preference query (Pre-JS loading fallback) */
+  @media (prefers-color-scheme: dark) {
+    html {
+      background-color: #000000;
+    }
+  }
+
+  /* Dark mode base color (Class-based) */
   html.dark {
     background-color: #000000;
   }
