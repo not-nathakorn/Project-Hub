@@ -35,18 +35,18 @@ const NotFound = () => {
         transition={{ duration: 0.5 }}
         className="max-w-2xl w-full relative z-10"
       >
-        <Card className="glass border-white/40 dark:border-white/10 shadow-2xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 overflow-hidden">
-          <CardContent className="p-8 sm:p-12 text-center">
+        <Card className="glass border-white/40 dark:border-white/10 shadow-2xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 overflow-hidden mx-4 sm:mx-0">
+          <CardContent className="p-6 sm:p-12 text-center">
             <motion.div 
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
               <img
                 src="/Logo.svg"
                 alt="CodeX Logo"
-                className="mx-auto w-32 h-32 sm:w-40 sm:h-40 object-contain drop-shadow-xl"
+                className="mx-auto w-24 h-24 sm:w-40 sm:h-40 object-contain drop-shadow-xl"
               />
             </motion.div>
 
@@ -55,16 +55,16 @@ const NotFound = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              <h1 className="text-8xl sm:text-9xl font-black tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 filter drop-shadow-sm">
+              <h1 className="text-6xl sm:text-9xl font-black tracking-tighter mb-2 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 filter drop-shadow-sm">
                 404
               </h1>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-4">
+              <h2 className="text-xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-3 sm:mb-4 px-2">
                 ขอโทษด้วย — ไม่พบหน้านี้
               </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-md mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 mb-6 sm:mb-8 max-w-md mx-auto leading-relaxed px-2">
                 ดูเหมือนว่าหน้าที่คุณกำลังค้นหาจะถูกย้าย ลบ หรือไม่มีอยู่จริง
                 <br />
-                <span className="text-sm font-mono text-muted-foreground mt-2 block bg-slate-100 dark:bg-slate-800/50 py-1 px-3 rounded-full mx-auto w-fit border border-slate-200 dark:border-slate-700">
+                <span className="text-xs sm:text-sm font-mono text-muted-foreground mt-2 inline-block bg-slate-100 dark:bg-slate-800/50 py-1 px-3 rounded-full mx-auto max-w-[200px] sm:max-w-none truncate border border-slate-200 dark:border-slate-700">
                   {location.pathname}
                 </span>
               </p>
@@ -76,23 +76,23 @@ const NotFound = () => {
               transition={{ delay: 0.4 }}
               className="space-y-6"
             >
-              <form onSubmit={handleSearch} className="max-w-md mx-auto relative group">
+              <form onSubmit={handleSearch} className="max-w-md mx-auto relative group px-2">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
                 <div className="relative flex items-center bg-white dark:bg-slate-800 rounded-lg p-1 shadow-lg border border-slate-200 dark:border-slate-700">
-                  <Search className="w-5 h-5 text-slate-400 ml-3" />
+                  <Search className="w-5 h-5 text-slate-400 ml-3 shrink-0" />
                   <Input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="ค้นหา..."
-                    className="border-0 shadow-none focus-visible:ring-0 bg-transparent flex-1 text-base h-11"
+                    className="border-0 shadow-none focus-visible:ring-0 bg-transparent flex-1 text-base h-11 min-w-0"
                   />
-                  <Button type="submit" size="sm" className="mr-1 bg-blue-600 hover:bg-blue-700 shadow-md">
+                  <Button type="submit" size="sm" className="mr-1 bg-blue-600 hover:bg-blue-700 shadow-md shrink-0">
                     ค้นหา
                   </Button>
                 </div>
               </form>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4 sm:pt-6 pb-2 px-6 sm:px-0">
                 <Button
                   onClick={() => navigate("/")}
                   size="lg"
@@ -102,10 +102,10 @@ const NotFound = () => {
                   กลับหน้าหลัก
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   onClick={() => navigate(-1)}
                   size="lg"
-                  className="w-full sm:w-auto gap-2 border-slate-200 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+                  className="w-full sm:w-auto gap-2 bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:hover:bg-slate-700"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   ย้อนกลับ
