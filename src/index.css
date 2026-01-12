@@ -102,7 +102,7 @@
     overscroll-behavior: none;
     height: 100%;
     /* ใช้สีเดียวกับ Gradient เริ่มต้นเป็นพื้นหลัง Fallback ชั้นสุดท้าย (กันเหนียวสุดๆ) */
-    background-color: hsl(210 40% 98%);
+    background-color: hsl(213 100% 96%);
   }
 
   /* Dark mode fallback color */
@@ -124,7 +124,7 @@
     
     background: linear-gradient(
       135deg,
-      hsl(210 40% 98%) 0%,
+      hsl(213 100% 96%) 0%,
       hsl(200 50% 96%) 100%
     );
     transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
