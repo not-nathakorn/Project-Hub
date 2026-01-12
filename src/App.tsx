@@ -15,6 +15,9 @@ import LazyFallback from "@/components/LazyFallback";
 import React from "react";
 
 // Lazy load pages to improve performance
+import { ThemeColorManager } from "@/components/ThemeColorManager";
+
+// Lazy load pages to improve performance
 import Index from "./pages/Index";
 const AdminLayout = React.lazy(() => import("./pages/AdminLayout").then(module => ({ default: module.AdminLayout })));
 const CallbackPage = React.lazy(() => import("./pages/CallbackPage"));
@@ -37,6 +40,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <AuthProvider>
+              <ThemeColorManager />
               <AnalyticsTracker />
               <React.Suspense fallback={<LazyFallback />}>
                 <Routes>
