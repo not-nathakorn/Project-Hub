@@ -68,7 +68,7 @@ const Admin = () => {
     setPersonalInfo(data || null);
   };
 
-  /* eslint-disable react-hooks/exhaustive-deps */
+   
   const fetchAllData = useCallback(async () => {
     setLoading(true);
     try {

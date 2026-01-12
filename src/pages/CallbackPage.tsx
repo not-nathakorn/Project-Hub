@@ -83,12 +83,32 @@ export default function CallbackPage() {
           
           // Redirect after a short delay to ensure state is propagated
           const storedReturnUrl = sessionStorage.getItem("return_url");
-          const returnUrl = searchParams.get("state") || storedReturnUrl || "/";
+          const rawReturnUrl = searchParams.get("state") || storedReturnUrl || "/";
+          
+          // ✅ SECURITY: Validate returnUrl to prevent Open Redirect attacks
+          const validateReturnUrl = (url: string): string => {
+            // Only allow relative paths (starts with /) or same-origin URLs
+            if (url.startsWith('/') && !url.startsWith('//')) {
+              return url; // Safe relative path
+            }
+            try {
+              const parsed = new URL(url, window.location.origin);
+              if (parsed.origin === window.location.origin) {
+                return parsed.pathname + parsed.search + parsed.hash; // Same-origin, use path only
+              }
+            } catch {
+              // Invalid URL, fallback to home
+            }
+            return '/'; // Fallback to home for any suspicious URL
+          };
+          
+          const returnUrl = validateReturnUrl(rawReturnUrl);
           
           // Clear stored URL to prevent sticky redirects
           if (storedReturnUrl) sessionStorage.removeItem("return_url");
 
           console.log("➡️ Redirecting to:", returnUrl);
+          // snyk:ignore:next-line - URL is validated by validateReturnUrl() above
           setTimeout(() => navigate(returnUrl), 1500); // Slightly longer delay for user to see success
           
         } else {

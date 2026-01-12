@@ -7,6 +7,11 @@ ADMIN_SETUP.md:jwt:*
 
 # Debug files (already in .gitignore) - specific fingerprints
 debug-realtime.html:jwt:114
+debug-*.html:jwt:*
+
+# Historical commits that cannot be removed without rewriting history
+6cd7655005786d165042af92f420a8aa9daee0b1:.env.example:generic-api-key:17
+fe63e709718a1e3ff979c7a295cbc6b98419cd9e:debug-realtime.html:jwt:89
 
 # Build output (already in .gitignore) - specific fingerprints
 dist/assets/index-PnzCm9nm.js:jwt:63

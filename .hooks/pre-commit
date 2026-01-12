@@ -1,0 +1,37 @@
+#!/bin/bash
+# GitLeaks Pre-commit Hook
+# ========================
+# บล็อกการ commit ถ้าเจอ secrets ในโค้ด
+#
+# ติดตั้ง: cp .hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+echo "🔐 [GitLeaks] Scanning for secrets..."
+
+# Check if gitleaks is installed
+if command -v gitleaks &> /dev/null; then
+    GITLEAKS_CMD="gitleaks"
+elif [ -f "$HOME/.local/bin/gitleaks" ]; then
+    GITLEAKS_CMD="$HOME/.local/bin/gitleaks"
+else
+    echo "⚠️  GitLeaks not installed. Skipping secret scan."
+    echo "   Install: brew install gitleaks"
+    exit 0
+fi
+
+# Run gitleaks on staged files
+$GITLEAKS_CMD protect --staged -v
+
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ [GitLeaks] Secrets detected! Commit blocked."
+    echo ""
+    echo "🔧 How to fix:"
+    echo "   1. Remove the secret from your code"
+    echo "   2. Use environment variables instead (.env is in .gitignore)"
+    echo "   3. If it's a false positive, add fingerprint to .gitleaksignore"
+    echo ""
+    exit 1
+fi
+
+echo "✅ [GitLeaks] No secrets found. Proceeding with commit."
+exit 0
