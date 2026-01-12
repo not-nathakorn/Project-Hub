@@ -107,12 +107,8 @@
     background-color: #EBF4FF; 
   }
 
-  /* Dark mode preference query (Pre-JS loading fallback) */
-  @media (prefers-color-scheme: dark) {
-    html {
-      background-color: #000000;
-    }
-  }
+  /* Dark mode preference query (Pre-JS loading fallback) - REMOVED to prevent conflict with manual light mode */
+  /* The startup script handles initial system detection by adding the .dark class */
 
   /* Dark mode base color (Class-based) */
   html.dark {
