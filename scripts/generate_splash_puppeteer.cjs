@@ -5,16 +5,16 @@ const path = require('path');
 // All iOS device splash screen sizes (Portrait and Landscape)
 const splashSizes = [
   // iPhone sizes
-  { width: 1320, height: 2868, name: "iPhone 16 Pro Max", orientation: "portrait" },
-  { width: 2868, height: 1320, name: "iPhone 16 Pro Max", orientation: "landscape" },
-  { width: 1260, height: 2736, name: "iPhone 16 Pro", orientation: "portrait" },
-  { width: 2736, height: 1260, name: "iPhone 16 Pro", orientation: "landscape" },
-  { width: 1290, height: 2796, name: "iPhone 16 Plus/15 Pro Max", orientation: "portrait" },
-  { width: 2796, height: 1290, name: "iPhone 16 Plus/15 Pro Max", orientation: "landscape" },
+  { width: 1320, height: 2868, name: "iPhone 17 Pro Max/16 Pro Max", orientation: "portrait" },
+  { width: 2868, height: 1320, name: "iPhone 17 Pro Max/16 Pro Max", orientation: "landscape" },
+  { width: 1260, height: 2736, name: "iPhone 17 Pro/16 Pro", orientation: "portrait" },
+  { width: 2736, height: 1260, name: "iPhone 17 Pro/16 Pro", orientation: "landscape" },
+  { width: 1290, height: 2796, name: "iPhone 17 Plus/16 Plus/15 Pro Max", orientation: "portrait" },
+  { width: 2796, height: 1290, name: "iPhone 17 Plus/16 Plus/15 Pro Max", orientation: "landscape" },
   { width: 1206, height: 2622, name: "iPhone 16/15 Pro", orientation: "portrait" },
   { width: 2622, height: 1206, name: "iPhone 16/15 Pro", orientation: "landscape" },
-  { width: 1179, height: 2556, name: "iPhone 15/14 Pro", orientation: "portrait" },
-  { width: 2556, height: 1179, name: "iPhone 15/14 Pro", orientation: "landscape" },
+  { width: 1179, height: 2556, name: "iPhone 17/16/15/14 Pro", orientation: "portrait" },
+  { width: 2556, height: 1179, name: "iPhone 17/16/15/14 Pro", orientation: "landscape" },
   { width: 1170, height: 2532, name: "iPhone 14/13/12", orientation: "portrait" },
   { width: 2532, height: 1170, name: "iPhone 14/13/12", orientation: "landscape" },
   { width: 1284, height: 2778, name: "iPhone 14 Plus/13 Pro Max", orientation: "portrait" },
@@ -131,7 +131,6 @@ function generateHTML(width, height) {
     
     .brand-name {
       font-size: ${fontSize}px;
-      font-weight: 800; /* Extra bold */
       font-weight: 800; 
       background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #1d4ed8 100%); /* Very Dark Indigo -> Violet -> Rich Blue */
       -webkit-background-clip: text;
@@ -207,35 +206,35 @@ async function generateSplashScreens() {
       fullPage: false
     });
     
-    // Generate link tag logic (Same as original)
+    // Generate link tag logic with CORRECTED Pixel Ratio detection
     const isPortrait = size.height > size.width;
     let deviceWidth, deviceHeight, pixelRatio;
     
-    // Determine pixel ratio based on resolution
-    if (size.width >= 1536 || size.height >= 1536) {
-      if (size.width >= 2048 || size.height >= 2048) {
-        pixelRatio = 2; // iPad
-        deviceWidth = isPortrait ? Math.round(size.width / 2) : Math.round(size.height / 2);
-        deviceHeight = isPortrait ? Math.round(size.height / 2) : Math.round(size.width / 2);
-      } else {
-        pixelRatio = 3; // iPhone @3x
-        deviceWidth = isPortrait ? Math.round(size.width / 3) : Math.round(size.height / 3);
-        deviceHeight = isPortrait ? Math.round(size.height / 3) : Math.round(size.width / 3);
-      }
-    } else if (size.width >= 750 || size.height >= 750) {
-      if (size.width > 1000 || size.height > 1000) {
-        pixelRatio = 3;
-        deviceWidth = isPortrait ? Math.round(size.width / 3) : Math.round(size.height / 3);
-        deviceHeight = isPortrait ? Math.round(size.height / 3) : Math.round(size.width / 3);
-      } else {
-        pixelRatio = 2;
-        deviceWidth = isPortrait ? Math.round(size.width / 2) : Math.round(size.height / 2);
-        deviceHeight = isPortrait ? Math.round(size.height / 2) : Math.round(size.width / 2);
-      }
+    // Robust Pixel Ratio Logic
+    if (size.name.includes("iPad")) {
+      pixelRatio = 2; // All iPads are @2x
     } else {
-      pixelRatio = 2;
-      deviceWidth = isPortrait ? Math.round(size.width / 2) : Math.round(size.height / 2);
-      deviceHeight = isPortrait ? Math.round(size.height / 2) : Math.round(size.width / 2);
+      // iPhones
+      // Known @2x iPhones
+      if (
+        size.name.includes("11/XR") ||       // 828x1792
+        size.name.includes("SE/8/7/6s") ||   // 750x1334
+        size.name.includes("SE 1st/5s")      // 640x1136
+      ) {
+        pixelRatio = 2;
+      } else {
+        // All other modern iPhones (Pro, Max, Plus, X, XS, 12, 13, 14, 15, 16) are @3x
+        pixelRatio = 3;
+      }
+    }
+
+    // Calculate logical device dimensions based on ratio
+    if (isPortrait) {
+      deviceWidth = Math.round(size.width / pixelRatio);
+      deviceHeight = Math.round(size.height / pixelRatio);
+    } else {
+      deviceWidth = Math.round(size.height / pixelRatio);
+      deviceHeight = Math.round(size.width / pixelRatio);
     }
     
     linkTags.push({
