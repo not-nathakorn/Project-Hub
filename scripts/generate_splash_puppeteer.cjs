@@ -60,7 +60,7 @@ const splashSizes = [
 ];
 
 // Read SVG file and convert to base64
-const svgPath = path.join(__dirname, 'public', 'Splash-Logo.svg');
+const svgPath = path.join(__dirname, '../public', 'Splash-Logo.svg');
 const svgContent = fs.readFileSync(svgPath, 'utf8');
 const svgBase64 = Buffer.from(svgContent).toString('base64');
 const svgDataUri = `data:image/svg+xml;base64,${svgBase64}`;
@@ -69,12 +69,10 @@ const svgDataUri = `data:image/svg+xml;base64,${svgBase64}`;
 function generateHTML(width, height) {
   const isLandscape = width > height;
   // Scale logo based on the smaller dimension
-  // Increase logo size slightly as per requested visual
   const minDim = Math.min(width, height);
-  const logoSize = Math.floor(minDim * 0.25); 
-  const fontSize = Math.floor(minDim * 0.05); // Text size
+  const logoSize = Math.floor(minDim * 0.25); // Increased from 0.18 for larger icon
+  const fontSize = Math.floor(minDim * 0.05); // Slightly larger font
   const fromFontSize = Math.floor(fontSize * 0.5);
-  // Bottom margin for the branding text
   const bottomMargin = Math.floor(height * 0.08);
   const lineSpacing = Math.floor(fontSize * 0.3);
 
@@ -97,7 +95,6 @@ function generateHTML(width, height) {
       display: flex;
       flex-direction: column;
       align-items: center;
-      // We use justify-content: center initially, but will shift the logo up using margin
       justify-content: center;
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
       position: relative;
@@ -107,44 +104,39 @@ function generateHTML(width, height) {
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Push logo up significantly higher than center */
-      margin-bottom: 25vh;
+      /* Move logo slightly above center as requested */
+      transform: translateY(-20%);
     }
     
     .logo {
       width: ${logoSize}px;
       height: ${logoSize}px;
-      border-radius: ${Math.floor(logoSize * 0.22)}px;
-      object-fit: contain; 
+      /* Rounded corners for the logo - adjusted for larger size */
+      border-radius: ${Math.floor(logoSize * 0.22)}px; 
+      object-fit: contain;
     }
     
     .branding {
       position: absolute;
       bottom: ${bottomMargin}px;
       text-align: center;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
     
     .from-text {
       font-size: ${fromFontSize}px;
-      color: #8E8E93; /* Apple system gray, softer */
+      color: #6B7280; /* Darker gray for better visibility */
       font-weight: 500;
-      margin-bottom: ${Math.floor(lineSpacing * 0.8)}px;
-      letter-spacing: 0.02em;
+      margin-bottom: ${lineSpacing}px;
     }
     
     .brand-name {
       font-size: ${fontSize}px;
       font-weight: 800; /* Extra bold */
-      background: linear-gradient(135deg, #7C3AED 0%, #2563EB 100%); /* Violet-600 to Blue-600 */
+      font-weight: 800; 
+      background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #1d4ed8 100%); /* Very Dark Indigo -> Violet -> Rich Blue */
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      letter-spacing: -0.01em;
     }
   </style>
 </head>
@@ -164,7 +156,7 @@ function generateHTML(width, height) {
 async function generateSplashScreens() {
   console.log('🚀 Starting splash screen generation...');
   
-  const outputDir = path.join(__dirname, 'public', 'splash');
+  const outputDir = path.join(__dirname, '../public', 'splash');
   
   // Create output directory if it doesn't exist
   if (!fs.existsSync(outputDir)) {
@@ -201,7 +193,7 @@ async function generateSplashScreens() {
       deviceScaleFactor: 1
     });
     
-    // Generate and set HTML content (no network, use domcontentloaded)
+    // Generate and set HTML content
     const html = generateHTML(size.width, size.height);
     await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 10000 });
     
@@ -215,13 +207,12 @@ async function generateSplashScreens() {
       fullPage: false
     });
     
-    // Generate link tag with correct device dimensions
+    // Generate link tag logic (Same as original)
     const isPortrait = size.height > size.width;
     let deviceWidth, deviceHeight, pixelRatio;
     
     // Determine pixel ratio based on resolution
     if (size.width >= 1536 || size.height >= 1536) {
-      // iPad @2x or iPhone @3x
       if (size.width >= 2048 || size.height >= 2048) {
         pixelRatio = 2; // iPad
         deviceWidth = isPortrait ? Math.round(size.width / 2) : Math.round(size.height / 2);
@@ -232,7 +223,6 @@ async function generateSplashScreens() {
         deviceHeight = isPortrait ? Math.round(size.height / 3) : Math.round(size.width / 3);
       }
     } else if (size.width >= 750 || size.height >= 750) {
-      // iPhone @2x or @3x
       if (size.width > 1000 || size.height > 1000) {
         pixelRatio = 3;
         deviceWidth = isPortrait ? Math.round(size.width / 3) : Math.round(size.height / 3);
@@ -267,10 +257,8 @@ async function generateSplashScreens() {
     linkTagsHTML += `    <link rel="apple-touch-startup-image" href="${tag.href}" media="${tag.media}">\n`;
   }
   
-  console.log(linkTagsHTML);
-  
   // Save link tags to a file
-  fs.writeFileSync(path.join(__dirname, 'splash-link-tags.html'), linkTagsHTML);
+  fs.writeFileSync(path.join(__dirname, '../splash-link-tags.html'), linkTagsHTML);
   console.log('💾 Link tags saved to splash-link-tags.html');
   
   console.log(`\n✅ Successfully generated ${splashSizes.length} splash screens!`);
