@@ -110,12 +110,16 @@ CREATE POLICY "Users can manage own sessions" ON active_sessions
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql
+SECURITY INVOKER
+SET search_path = public, pg_catalog
+AS $$
 BEGIN
     NEW.updated_at = NOW();
     RETURN NEW;
 END;
-$$ language 'plpgsql';
+$$;
 
 -- Add triggers for updated_at
 DROP TRIGGER IF EXISTS update_site_settings_updated_at ON site_settings;
