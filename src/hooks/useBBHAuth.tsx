@@ -48,6 +48,7 @@ export function BBHAuthProvider({ children }: { children: ReactNode }) {
       
       if (res.ok) {
         const data = await res.json();
+        console.log('BBH Auth Payload:', data);
         setUser(data.authenticated ? data.user : null);
       } else {
         setUser(null);
