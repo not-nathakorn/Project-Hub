@@ -41,12 +41,12 @@ export function RoleGuard({
   // Check role
   if (!allowedRoles.includes(user.role || '')) {
     return fallback || (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] p-4 text-center">
+      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/80 dark:bg-black/80 backdrop-blur-sm p-4 text-center">
         <h3 className="text-xl font-bold text-destructive mb-2">Access Denied</h3>
         <p className="text-muted-foreground mb-4">
           You don&apos;t have permission to access this content.
         </p>
-        <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg text-left text-sm font-mono border border-slate-200 dark:border-slate-700">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-2xl text-left text-sm font-mono border border-slate-200 dark:border-slate-800 max-w-md w-full relative z-[101]">
           <p className="mb-1"><strong>Your Status:</strong></p>
           <p>ID: {user.id}</p>
           <p>Email: {user.email}</p>
