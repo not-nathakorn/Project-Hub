@@ -37,11 +37,7 @@ export function AuthGuard({
       login(loginRedirect || window.location.pathname);
     }, 0);
     
-    return fallback || (
-      <div className="flex items-center justify-center min-h-screen">
-        <p>Redirecting to login...</p>
-      </div>
-    );
+    return fallback || <LazyFallback message="กำลังพาท่านไปหน้าเข้าสู่ระบบ..." />;
   }
 
   // Authenticated - render children

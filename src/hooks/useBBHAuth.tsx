@@ -52,8 +52,9 @@ export function BBHAuthProvider({ children }: { children: ReactNode }) {
         
         let userData = data.authenticated ? data.user : null;
 
-        // Fallback: If authenticated but no role, check against personal_info email
-        if (userData && !userData.role && userData.email) {
+        // Fallback: If authenticated but no role (or just 'authenticated'), check against personal_info email
+        // This grants admin access if the email matches the portfolio owner's email
+        if (userData && (!userData.role || userData.role === 'authenticated') && userData.email) {
             try {
                 // Dynamic import to avoid circular dependencies if any
                 const { supabase } = await import('@/lib/supabase');

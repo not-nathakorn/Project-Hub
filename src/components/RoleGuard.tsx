@@ -41,7 +41,7 @@ export function RoleGuard({
   // Check role
   if (!allowedRoles.includes(user.role || '')) {
     return fallback || (
-      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/80 dark:bg-black/80 backdrop-blur-sm p-4 text-center">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-white/80 dark:bg-black/80 backdrop-blur-sm">
         <h3 className="text-xl font-bold text-destructive mb-2">Access Denied</h3>
         <p className="text-muted-foreground mb-4">
           You don&apos;t have permission to access this content.
@@ -54,7 +54,8 @@ export function RoleGuard({
             <p className="flex justify-between">
               <span>ID:</span> 
               <span className="font-mono text-xs bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
-                {(user as any).blackbox_id || user.id.substring(0, 8) + '***'}
+                {user.blackbox_id || user.id.substring(0, 8) + '***'}
+
               </span>
             </p>
             <p className="flex justify-between">

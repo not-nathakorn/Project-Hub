@@ -25,7 +25,7 @@ export function AdminLayout() {
   const [displayName, setDisplayName] = useState<string>('Admin');
 
   
-  console.log('AdminLayout: Rendering', { user, activeTab, open });
+
 
   // Fetch display_name from personal_info table
   useEffect(() => {

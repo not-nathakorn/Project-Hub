@@ -20,6 +20,36 @@ const BBH_CLIENT_SECRET = process.env.BBH_CLIENT_SECRET || '';
 const COOKIE_NAME = 'bbh_session';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
+// Start: Rate Limiting (In-Memory for Warm Instances)
+// Note: For production with cold starts, use Redis (e.g., Upstash)
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 30; // 30 requests per minute
+const rateLimitMap = new Map<string, { count: number, start: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+
+  if (!record) {
+    rateLimitMap.set(ip, { count: 1, start: now });
+    return true;
+  }
+
+  if (now - record.start > RATE_LIMIT_WINDOW) {
+    // Reset window
+    rateLimitMap.set(ip, { count: 1, start: now });
+    return true;
+  }
+
+  if (record.count >= RATE_LIMIT_MAX) {
+    return false; // Exceeded limit
+  }
+
+  record.count++;
+  return true;
+}
+// End: Rate Limiting
+
 // ============================================
 // Cookie Helpers
 // ============================================
@@ -74,6 +104,15 @@ function getSafeRedirect(url: string | undefined): string {
 // ============================================
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setSecurityHeaders(res);
+  
+  // Rate Limiting Check
+  const ip = (Array.isArray(req.headers['x-forwarded-for']) 
+    ? req.headers['x-forwarded-for'][0] 
+    : req.headers['x-forwarded-for']) || 'unknown';
+    
+  if (!checkRateLimit(ip)) {
+    return res.status(429).json({ error: 'Too Many Requests' });
+  }
   
   const action = req.query.action as string;
 
