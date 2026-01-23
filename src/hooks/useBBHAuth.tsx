@@ -49,7 +49,31 @@ export function BBHAuthProvider({ children }: { children: ReactNode }) {
       if (res.ok) {
         const data = await res.json();
         console.log('BBH Auth Payload:', data);
-        setUser(data.authenticated ? data.user : null);
+        
+        let userData = data.authenticated ? data.user : null;
+
+        // Fallback: If authenticated but no role, check against personal_info email
+        if (userData && !userData.role && userData.email) {
+            try {
+                // Dynamic import to avoid circular dependencies if any
+                const { supabase } = await import('@/lib/supabase');
+                const { data: info } = await supabase
+                    .from('personal_info')
+                    .select('email') // Select email to compare
+                    .limit(1)
+                    .maybeSingle();
+                
+                // If the logged in email matches the personal_info email, they are the admin
+                if (info && info.email === userData.email) {
+                    console.log('Assigning Admin Role based on personal_info match');
+                    userData = { ...userData, role: 'admin' };
+                }
+            } catch (err) {
+                console.warn('Role fallback check failed:', err);
+            }
+        }
+
+        setUser(userData);
       } else {
         setUser(null);
       }
