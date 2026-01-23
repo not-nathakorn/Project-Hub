@@ -132,7 +132,7 @@ const FloatingDockDesktop = ({
       <motion.div
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
-        className="flex h-16 items-end gap-4 rounded-2xl bg-gray-50 px-4 pb-3 dark:bg-neutral-900 relative z-10"
+        className="flex h-16 items-end gap-4 rounded-2xl bg-gray-50 px-4 pb-3 dark:bg-neutral-900 relative z-10 will-change-transform"
       >
         {items.map((item) => (
           <IconContainer mouseX={mouseX} key={item.title} {...item} />
@@ -174,23 +174,23 @@ function IconContainer({
   const width = useSpring(widthTransform, {
     mass: 0.1,
     stiffness: 150,
-    damping: 12,
+    damping: 15, // Increased damping to prevent jitter
   });
   const height = useSpring(heightTransform, {
     mass: 0.1,
     stiffness: 150,
-    damping: 12,
+    damping: 15, // Increased damping
   });
 
   const widthIcon = useSpring(widthTransformIcon, {
     mass: 0.1,
     stiffness: 150,
-    damping: 12,
+    damping: 15,
   });
   const heightIcon = useSpring(heightTransformIcon, {
     mass: 0.1,
     stiffness: 150,
-    damping: 12,
+    damping: 15,
   });
 
   const [hovered, setHovered] = useState(false);
