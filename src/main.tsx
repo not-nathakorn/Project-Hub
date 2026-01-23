@@ -1,6 +1,15 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+// Force unregister legacy service workers
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+      console.log('ServiceWorker unregistered');
+    }
+  });
+}
 // import "virtual:pwa-register" is handled by vite-plugin-pwa but explicit usage enables prompts
 import { registerSW } from 'virtual:pwa-register';
 
