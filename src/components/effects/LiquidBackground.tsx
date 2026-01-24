@@ -44,8 +44,13 @@ export const LiquidBackground = () => {
 
       {/* Mobile Edge Fade Overlay to soften blob edges */}
       <div className="absolute inset-0 pointer-events-none md:hidden">
+        {/* Vertical Edges (Left/Right) */}
         <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#f8fafc] dark:from-[#0a0a0a] to-transparent" />
         <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#f8fafc] dark:from-[#0a0a0a] to-transparent" />
+        
+        {/* Horizontal Edges (Top/Bottom) - Soften scrolling boundaries */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#f8fafc] dark:from-[#0a0a0a] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] dark:from-[#0a0a0a] to-transparent" />
       </div>
       
       {/* Dark Mode Override Styles */}
