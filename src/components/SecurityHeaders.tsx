@@ -11,11 +11,11 @@ export const SecurityHeaders = () => {
     cspMeta.httpEquiv = 'Content-Security-Policy';
     cspMeta.content = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://va.vercel-scripts.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://va.vercel-scripts.com https://static.cloudflareinsights.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https: blob:",
-      "connect-src 'self' https://*.supabase.co https://vercel.live https://va.vercel-scripts.com wss://*.supabase.co",
+      "connect-src 'self' https://*.supabase.co https://vercel.live https://va.vercel-scripts.com https://cloudflareinsights.com https://static.cloudflareinsights.com wss://*.supabase.co",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
