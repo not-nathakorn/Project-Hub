@@ -43,20 +43,6 @@ export const LiquidBackground = () => {
           </div>
         </div>
       </div>
-
-      {/* Foreground Overlay - High Z-index (z-40) to fade scrolling content on mobile */}
-      <div 
-        className="fixed inset-0 pointer-events-none md:hidden"
-        style={{ zIndex: 40 }}
-      >
-
-        
-
-
-        {/* Side Edges (Subtle) */}
-        <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#f8fafc] dark:from-[#0a0a0a] to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#f8fafc] dark:from-[#0a0a0a] to-transparent" />
-      </div>
       
       {/* Dark Mode Override Styles */}
       <style>{`
