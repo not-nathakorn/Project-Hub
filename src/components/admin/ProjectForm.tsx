@@ -90,10 +90,10 @@ export const ProjectForm = ({ project, onClose, onSave }: ProjectFormProps) => {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#1E293B] border-slate-200 dark:border-slate-700">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#1E293B] border-slate-200 dark:border-slate-700 dark:text-slate-100">
         <DialogHeader>
-          <DialogTitle>{project ? 'แก้ไขโครงการ' : 'เพิ่มโครงการใหม่'}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-slate-900 dark:text-slate-100">{project ? 'แก้ไขโครงการ' : 'เพิ่มโครงการใหม่'}</DialogTitle>
+          <DialogDescription className="text-slate-500 dark:text-slate-400">
             กรอกข้อมูลโครงการ ทั้งภาษาไทยและภาษาอังกฤษ
           </DialogDescription>
         </DialogHeader>
@@ -101,29 +101,31 @@ export const ProjectForm = ({ project, onClose, onSave }: ProjectFormProps) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="title">ชื่อโครงการ *</Label>
+              <Label htmlFor="title" className="text-slate-700 dark:text-slate-200">ชื่อโครงการ *</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 required
+                className="dark:bg-slate-950 dark:border-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="icon">ไอคอน *</Label>
+              <Label htmlFor="icon" className="text-slate-700 dark:text-slate-200">ไอคอน *</Label>
               <Input
                 id="icon"
                 value={formData.icon}
                 onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                 placeholder="🚀"
                 required
+                className="dark:bg-slate-950 dark:border-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="url">URL *</Label>
+            <Label htmlFor="url" className="text-slate-700 dark:text-slate-200">URL *</Label>
             <Input
               id="url"
               type="url"
@@ -131,28 +133,31 @@ export const ProjectForm = ({ project, onClose, onSave }: ProjectFormProps) => {
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
               placeholder="https://example.com"
               required
+              className="dark:bg-slate-950 dark:border-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description_th">คำอธิบาย (ภาษาไทย) *</Label>
+            <Label htmlFor="description_th" className="text-slate-700 dark:text-slate-200">คำอธิบาย (ภาษาไทย) *</Label>
             <Textarea
               id="description_th"
               value={formData.description_th}
               onChange={(e) => setFormData({ ...formData, description_th: e.target.value })}
               rows={3}
               required
+              className="dark:bg-slate-950 dark:border-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description_en">คำอธิบาย (ภาษาอังกฤษ) *</Label>
+            <Label htmlFor="description_en" className="text-slate-700 dark:text-slate-200">คำอธิบาย (ภาษาอังกฤษ) *</Label>
             <Textarea
               id="description_en"
               value={formData.description_en}
               onChange={(e) => setFormData({ ...formData, description_en: e.target.value })}
               rows={3}
               required
+              className="dark:bg-slate-950 dark:border-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
             />
           </div>
 
