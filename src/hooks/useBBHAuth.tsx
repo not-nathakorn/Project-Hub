@@ -96,10 +96,30 @@ export function BBHAuthProvider({ children }: { children: ReactNode }) {
     checkSession();
   }, [checkSession]);
 
-  // Login - Redirect to BFF proxy
+  // Login - Direct Redirect to Provider (Optimized for Speed)
+  // Skip the /api/auth/proxy?action=login hop to avoid Vercel cold starts
   const login = useCallback((redirectTo?: string) => {
     const currentPath = redirectTo || window.location.pathname;
-    window.location.href = `/api/auth/proxy?action=login&redirect=${encodeURIComponent(currentPath)}`;
+    
+    // 1. Determine base URL and Client ID (Sync with proxy.ts)
+    const baseUrl = import.meta.env.VITE_BBH_BASE_URL || 'https://bbh.codex-th.com';
+    const clientId = import.meta.env.VITE_BBH_CLIENT_ID || 'client_umphfht9l38';
+    
+    // 2. Construct Callback URL (Must match what the Proxy expects)
+    const callbackUrl = `${window.location.origin}/api/auth/proxy?action=callback`;
+    
+    // 3. Build Auth URL
+    const params = new URLSearchParams({
+      response_type: 'code',
+      client_id: clientId,
+      redirect_uri: callbackUrl,
+      state: encodeURIComponent(currentPath)
+    });
+    
+    const loginUrl = `${baseUrl}/oauth/authorize?${params.toString()}`;
+    
+    // 4. Redirect immediately
+    window.location.href = loginUrl;
   }, []);
 
   // Logout - Clear session via BFF proxy
