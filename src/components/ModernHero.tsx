@@ -177,17 +177,9 @@ export const ModernHero = () => {
                 title="Portfolio Hub"
                 href="#projects"
                 containerClassName="glassmorphism-pin"
+                imageUrl="/Dev.png"
               >
                 <div className="relative flex basis-full flex-col p-10 tracking-tight w-[26rem] h-[32rem] bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-3xl border border-white/20 dark:border-slate-700/30 shadow-2xl justify-between group/card">
-                  {/* Pop-up 3D Character */}
-                  <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-60 h-60 z-50 opacity-0 group-hover/pin:opacity-100 group-hover/pin:scale-100 scale-50 group-hover/pin:translate-y-0 translate-y-20 transition-all duration-500 ease-spring delay-100 pointer-events-none">
-                    <img 
-                      src="/Dev.png" 
-                      alt="Developer Character" 
-                      className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]" 
-                    />
-                  </div>
-
                   {/* Profile Icon with Gradient */}
                   <div className="relative w-32 h-32 mx-auto mt-2 group">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-full blur-2xl opacity-60 group-hover:opacity-90 transition-opacity"></div>

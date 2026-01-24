@@ -8,12 +8,14 @@ export const PinContainer = ({
   href,
   className,
   containerClassName,
+  imageUrl,
 }: {
   children: React.ReactNode;
   title?: string;
   href?: string;
   className?: string;
   containerClassName?: string;
+  imageUrl?: string;
 }) => {
   const [transform, setTransform] = useState(
     "translate(-50%,-50%) rotateX(0deg)"
@@ -48,7 +50,7 @@ export const PinContainer = ({
           <div className={className}>{children}</div>
         </div>
       </div>
-      <PinPerspective title={title} href={href} />
+      <PinPerspective title={title} href={href} imageUrl={imageUrl} />
     </div>
   );
 };
@@ -56,14 +58,25 @@ export const PinContainer = ({
 export const PinPerspective = ({
   title,
   href,
+  imageUrl,
 }: {
   title?: string;
   href?: string;
+  imageUrl?: string;
 }) => {
   return (
     <motion.div className="pointer-events-none w-96 h-80 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-500">
       <div className="w-full h-full -mt-7 flex-none inset-0">
-        <div className="absolute top-0 inset-x-0 flex justify-center">
+        <div className="absolute top-0 inset-x-0 flex flex-col items-center justify-center">
+          {imageUrl && (
+            <div className="relative z-20 mb-1 w-24 h-24 sm:w-32 sm:h-32">
+               <img 
+                 src={imageUrl} 
+                 alt="Pin Image" 
+                 className="w-full h-full object-contain drop-shadow-lg animate-bounce-slow"
+               />
+            </div>
+          )}
           <a
             href={href}
             target="_blank"

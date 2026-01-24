@@ -171,30 +171,69 @@ const Index = () => {
             className="glass rounded-2xl p-6 md:p-8 lg:p-12 border border-border/50 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
             
-            <div className="relative z-10 max-w-4xl mx-auto">
-              {language === 'th' ? (
-                <div>
-                  <h3 className="text-2xl font-bold mb-4 gradient-text"><AnimatedText>{t("about.thaiTitle")}</AnimatedText></h3>
-                  <p className="text-foreground font-semibold mb-4"><AnimatedText>{t("about.thaiName")}</AnimatedText></p>
-                  {/* <p className="text-muted-foreground leading-relaxed mb-4">
-                    <AnimatedText block>{t("about.thaiDesc1")}</AnimatedText>
-                  </p> */}
-                  <p className="text-muted-foreground leading-relaxed">
-                    <AnimatedText block>{t("about.thaiDesc2")}</AnimatedText>
-                  </p>
+            <div className="relative z-10 max-w-5xl mx-auto">
+              <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+                
+                {/* Text Content */}
+                <div className="flex-1 order-2 md:order-1">
+                  {language === 'th' ? (
+                    <div>
+                      <h3 className="text-2xl font-bold mb-4 gradient-text"><AnimatedText>{t("about.thaiTitle")}</AnimatedText></h3>
+                      <p className="text-foreground font-semibold mb-4"><AnimatedText>{t("about.thaiName")}</AnimatedText></p>
+                      {/* <p className="text-muted-foreground leading-relaxed mb-4">
+                        <AnimatedText block>{t("about.thaiDesc1")}</AnimatedText>
+                      </p> */}
+                      <p className="text-muted-foreground leading-relaxed text-lg">
+                        <AnimatedText block>{t("about.thaiDesc2")}</AnimatedText>
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <h3 className="text-2xl font-bold mb-4 gradient-text"><AnimatedText>{t("about.englishTitle")}</AnimatedText></h3>
+                      <p className="text-foreground font-semibold mb-4"><AnimatedText>{t("about.englishName")}</AnimatedText></p>
+                      {/* <p className="text-muted-foreground leading-relaxed mb-4">
+                        <AnimatedText block>{t("about.englishDesc1")}</AnimatedText>
+                      </p> */}
+                      <p className="text-muted-foreground leading-relaxed text-lg">
+                        <AnimatedText block>{t("about.englishDesc2")}</AnimatedText>
+                      </p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div>
-                  <h3 className="text-2xl font-bold mb-4 gradient-text"><AnimatedText>{t("about.englishTitle")}</AnimatedText></h3>
-                  <p className="text-foreground font-semibold mb-4"><AnimatedText>{t("about.englishName")}</AnimatedText></p>
-                  {/* <p className="text-muted-foreground leading-relaxed mb-4">
-                    <AnimatedText block>{t("about.englishDesc1")}</AnimatedText>
-                  </p> */}
-                  <p className="text-muted-foreground leading-relaxed">
-                    <AnimatedText block>{t("about.englishDesc2")}</AnimatedText>
-                  </p>
+
+                {/* Profile Image - Playful Design */}
+                <div className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 order-1 md:order-2 flex justify-center">
+                  <div className="relative w-48 h-48 md:w-64 md:h-64">
+                    {/* Background Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/30 to-purple-500/30 rounded-full blur-3xl animate-pulse"></div>
+                    
+                    {/* Image Container */}
+                    <motion.div 
+                      whileHover={{ scale: 1.05, rotate: 3 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl glass-strong flex items-center justify-center p-2 group"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <img 
+                        src="/Dev.png" 
+                        alt="Profile" 
+                        className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)] transform transition-transform duration-500 hover:scale-110" 
+                      />
+                    </motion.div>
+                    
+                    {/* Floating Badge */}
+                    <motion.div 
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute -bottom-2 -right-2 md:bottom-2 md:-right-2 bg-white dark:bg-slate-800 rounded-2xl p-3 shadow-lg border border-white/20 flex items-center gap-2 z-10"
+                    >
+                       <span className="text-xl">💻</span>
+                       <span className="text-xs font-bold gradient-text">Coding...</span>
+                    </motion.div>
+                  </div>
                 </div>
-              )}
+
+              </div>
             </div>
 
             <div className="relative z-10 mt-8 pt-8 border-t border-border/50">
