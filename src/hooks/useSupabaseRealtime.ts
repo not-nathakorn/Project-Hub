@@ -208,6 +208,7 @@ export function useSiteSettings() {
       available_for_work: true,
       social_linkedin: '',
       social_line: '',
+      hero_image_url: '/Dev.png',
       created_at: '',
       updated_at: ''
     };

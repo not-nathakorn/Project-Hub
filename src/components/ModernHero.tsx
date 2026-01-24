@@ -177,7 +177,7 @@ export const ModernHero = () => {
                 title="Portfolio Hub"
                 href="#projects"
                 containerClassName="glassmorphism-pin"
-                imageUrl="/Dev.png"
+                imageUrl={settings.hero_image_url || '/Dev.png'}
               >
                 <div className="relative flex basis-full flex-col p-10 tracking-tight w-[26rem] h-[32rem] bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-3xl border border-white/20 dark:border-slate-700/30 shadow-2xl justify-between group/card">
                   {/* Profile Icon with Gradient */}

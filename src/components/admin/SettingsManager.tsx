@@ -66,6 +66,7 @@ interface SiteSettings {
   available_for_work: boolean;
   social_linkedin?: string;
   social_line?: string;
+  hero_image_url?: string;
 }
 
 interface AdminProfile {
@@ -149,6 +150,7 @@ export const SettingsManager = () => {
     available_for_work: true,
     social_linkedin: '',
     social_line: '',
+    hero_image_url: '/Dev.png',
   });
   
   // Security states
@@ -375,7 +377,8 @@ export const SettingsManager = () => {
           p_google_analytics_id: siteSettings.google_analytics_id,
           p_available_for_work: siteSettings.available_for_work,
           p_social_linkedin: siteSettings.social_linkedin,
-          p_social_line: siteSettings.social_line
+          p_social_line: siteSettings.social_line,
+          p_hero_image_url: siteSettings.hero_image_url
         });
 
       console.log('RPC Result Data:', savedData);
@@ -586,6 +589,27 @@ export const SettingsManager = () => {
                                 </span>
                               </button>
                             ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Hero Image */}
+                      <div className="space-y-3">
+                        <Label className="text-base font-bold text-slate-800 dark:text-slate-200">รูปภาพหน้าปก (Hero Image)</Label>
+                        <div className="p-4 bg-slate-50 dark:bg-black/20 rounded-xl border border-slate-200 dark:border-white/10 space-y-3">
+                          <div className="flex gap-4 items-center">
+                             <div className="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-800 overflow-hidden flex-shrink-0 border border-slate-300 dark:border-slate-600">
+                                <img src={siteSettings.hero_image_url || '/Dev.png'} alt="Preview" className="w-full h-full object-contain object-bottom" onError={(e) => (e.currentTarget.src = '/Dev.png')} />
+                             </div>
+                             <div className="flex-1 space-y-2">
+                                <Input 
+                                  value={siteSettings.hero_image_url || ''}
+                                  onChange={(e) => setSiteSettings({ ...siteSettings, hero_image_url: e.target.value })}
+                                  placeholder="/Dev.png"
+                                  className="bg-white dark:bg-black/20 text-slate-900 dark:text-slate-100"
+                                />
+                                <p className="text-xs text-slate-500">ใส่ URL ของรูปภาพ หรือ path เช่น /Dev.png</p>
+                             </div>
                           </div>
                         </div>
                       </div>

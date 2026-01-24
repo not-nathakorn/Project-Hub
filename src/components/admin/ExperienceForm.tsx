@@ -26,9 +26,12 @@ export const ExperienceForm = ({ experience, onClose, onSave }: ExperienceFormPr
     description_th: '',
     description_en: '',
     badge: '',
+    images: [] as string[],
     order_index: 0,
     is_visible: true,
   });
+
+  const [imagesInput, setImagesInput] = useState('');
 
   useEffect(() => {
     if (experience) {
@@ -41,9 +44,11 @@ export const ExperienceForm = ({ experience, onClose, onSave }: ExperienceFormPr
         description_th: experience.description_th || '',
         description_en: experience.description_en || '',
         badge: experience.badge || '',
+        images: experience.images || [],
         order_index: experience.order_index,
         is_visible: experience.is_visible,
       });
+      setImagesInput((experience.images || []).join('\n'));
     }
   }, [experience]);
 
@@ -52,9 +57,15 @@ export const ExperienceForm = ({ experience, onClose, onSave }: ExperienceFormPr
     setLoading(true);
 
     try {
+      const processedImages = imagesInput
+         .split(/[\n,]+/)
+         .map(url => url.trim())
+         .filter(url => url.length > 0);
+
       const dataToSave = {
         ...formData,
         badge: formData.badge || null,
+        images: processedImages,
       };
 
       if (experience) {
@@ -193,6 +204,21 @@ export const ExperienceForm = ({ experience, onClose, onSave }: ExperienceFormPr
                 onChange={(e) => setFormData({ ...formData, order_index: Number.parseInt(e.target.value) || 0 })}
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="images">รูปภาพ (ลิงก์ URL, บรรทัดละ 1 ลิงก์)</Label>
+            <Textarea
+              id="images"
+              value={imagesInput}
+              onChange={(e) => setImagesInput(e.target.value)}
+              rows={4}
+              placeholder={`https://example.com/image1.jpg\nhttps://example.com/image2.jpg`}
+              className="font-mono text-sm"
+            />
+            <p className="text-xs text-muted-foreground">
+              ใส่ URL ของรูปภาพที่จะแสดงใน Gallery
+            </p>
           </div>
 
           <div className="flex items-center space-x-2">

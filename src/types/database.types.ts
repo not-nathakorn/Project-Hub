@@ -38,6 +38,7 @@ export interface Experience {
   description_th: string;
   description_en: string;
   badge?: string;
+  images?: string[];
   order_index: number;
   is_visible: boolean;
   created_at: string;
@@ -115,6 +116,7 @@ export interface SiteSettings {
   available_for_work: boolean;
   social_linkedin?: string;
   social_line?: string;
+  hero_image_url?: string;
   created_at: string;
   updated_at: string;
 }

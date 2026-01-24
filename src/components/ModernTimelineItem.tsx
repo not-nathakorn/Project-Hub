@@ -7,6 +7,7 @@ interface ModernTimelineItemProps {
   description: string;
   badge?: string;
   index: number;
+  onClick?: () => void;
 }
 
 export const ModernTimelineItem = ({
@@ -16,6 +17,7 @@ export const ModernTimelineItem = ({
   description,
   badge,
   index,
+  onClick,
 }: ModernTimelineItemProps) => {
   return (
     <motion.div
@@ -50,7 +52,8 @@ export const ModernTimelineItem = ({
       <div className="absolute left-[5px] md:left-[7px] top-6 w-0.5 h-full bg-gradient-to-b from-border via-border/50 to-transparent" />
 
       <motion.div
-        className="glass rounded-xl p-4 md:p-6 border border-border/50 hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/20"
+        onClick={onClick}
+        className={`glass rounded-xl p-4 md:p-6 border border-border/50 hover:border-primary/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/20 ${onClick ? 'cursor-pointer active:scale-95' : ''}`}
         whileHover={{ scale: 1.02, x: 5 }}
       >
         <div className="flex items-start justify-between mb-2 md:mb-3 flex-wrap gap-2">

@@ -47,6 +47,15 @@ export function BBHAuthProvider({ children }: { children: ReactNode }) {
       });
       
       if (res.ok) {
+        // Check if response is actually JSON (to avoid crashing on local dev fetching source files)
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+           // This usually happens when running 'npm run dev' (Vite) which serves the ts file itself instead of executing it
+           console.warn("⚠️ Local Dev Warning: Auth API not running. Session check skipped.");
+           setUser(null);
+           return;
+        }
+
         const data = await res.json();
         console.log('BBH Auth Payload:', data);
         

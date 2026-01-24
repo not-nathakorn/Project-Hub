@@ -1,9 +1,10 @@
 import { useState, useEffect, Suspense } from "react";
-import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { ModernNavigation } from "@/components/ModernNavigation";
 import { ModernHero } from "@/components/ModernHero";
 import { ModernFooter } from "@/components/ModernFooter";
-import { Award, BookOpen, Globe, Mail, Linkedin } from "lucide-react";
+import { Award, BookOpen, Globe, Mail, Linkedin, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { CopyEmailButton } from "@/components/CopyEmailButton";
@@ -39,6 +40,8 @@ const Index = () => {
   const { settings } = useSiteSettings();
   
   // State for Supabase data
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [education, setEducation] = useState<Education[]>([]);
   const [experience, setExperience] = useState<Experience[]>([]);
@@ -209,15 +212,16 @@ const Index = () => {
                     
                     {/* Image Container */}
                     <motion.div 
+                      onClick={() => setSelectedImage(settings.hero_image_url || '/Dev.png')}
                       whileHover={{ scale: 1.05, rotate: 3 }}
                       transition={{ type: "spring", stiffness: 300 }}
-                      className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl glass-strong flex items-center justify-center p-2 group"
+                      className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl glass-strong flex items-end justify-center pt-2 px-2 pb-0 group cursor-zoom-in"
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       <img 
-                        src="/Dev.png" 
+                        src={settings.hero_image_url || '/Dev.png'}
                         alt="Profile" 
-                        className="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)] transform transition-transform duration-500 hover:scale-110" 
+                        className="w-full h-full object-contain object-bottom drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)] transform transition-transform duration-500 hover:scale-110" 
                       />
                     </motion.div>
                     
@@ -417,6 +421,7 @@ const Index = () => {
                     description={language === "th" ? item.description_th : item.description_en}
                     badge={item.badge}
                     index={index}
+                    onClick={() => setSelectedExperience(item)}
                   />
                 ))}
               </Suspense>
@@ -574,6 +579,134 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
+
+
+
+      {/* Image Modal - Portalled to body to avoid z-index/transform issues */}
+      {createPortal(
+        <AnimatePresence>
+          {selectedImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedImage(null)}
+              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="relative max-w-lg w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl p-2"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-all z-20"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+                <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-slate-800 dark:to-slate-900">
+                  <img
+                      src={selectedImage}
+                      alt="Full Size"
+                      className="w-full h-full object-contain object-bottom pt-8 drop-shadow-2xl"
+                    />
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+
+      {/* Experience Details Modal - Portalled */}
+      {createPortal(
+        <AnimatePresence>
+          {selectedExperience && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedExperience(null)}
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                className="relative max-w-2xl w-full bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header with decorative background */}
+                <div className="relative p-6 sm:p-8 pb-4">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 pointer-events-none" />
+                  <button
+                    onClick={() => setSelectedExperience(null)}
+                    className="absolute top-4 right-4 p-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-full transition-colors z-10"
+                  >
+                    <X className="w-5 h-5 text-slate-500" />
+                  </button>
+                  
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                      {selectedExperience.year}
+                    </span>
+                    {selectedExperience.badge && (
+                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                        {selectedExperience.badge}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <h3 className="text-2xl sm:text-3xl font-bold gradient-text mb-2">
+                    {language === 'th' ? selectedExperience.title_th : selectedExperience.title_en}
+                  </h3>
+                  
+                  {(language === 'th' ? selectedExperience.subtitle_th : selectedExperience.subtitle_en) && (
+                     <p className="text-lg text-primary font-medium">
+                        {language === 'th' ? selectedExperience.subtitle_th : selectedExperience.subtitle_en}
+                     </p>
+                  )}
+                </div>
+
+                {/* Scrollable Content */}
+                <div className="p-6 sm:p-8 pt-0 overflow-y-auto customized-scrollbar">
+                   <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                      {language === 'th' ? selectedExperience.description_th : selectedExperience.description_en}
+                   </div>
+
+                   {/* Image Gallery */}
+                   {selectedExperience.images && selectedExperience.images.length > 0 && (
+                     <div className="space-y-3">
+                        <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                           <Globe className="w-4 h-4" /> Gallery
+                        </h4>
+                        <div className="grid grid-cols-2 gap-3">
+                           {selectedExperience.images.map((img, idx) => (
+                              <div 
+                                key={idx} 
+                                className="relative aspect-video rounded-xl overflow-hidden cursor-zoom-in group border border-slate-200 dark:border-slate-700"
+                                onClick={() => setSelectedImage(img)}
+                              >
+                                 <img 
+                                   src={img} 
+                                   alt={`Gallery ${idx}`} 
+                                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                                 />
+                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+                   )}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* Modern Footer */}
       <ModernFooter />
