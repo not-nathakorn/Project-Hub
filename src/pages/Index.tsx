@@ -81,7 +81,7 @@ const Index = () => {
 
 
   return (
-    <div className="min-h-screen relative z-10 pb-32 md:pb-0">
+    <div className="min-h-[100dvh] relative z-10 w-full overflow-x-hidden">
       <ModernNavigation />
 
       {/* Hero Section */}
