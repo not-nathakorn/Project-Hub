@@ -125,6 +125,7 @@
     overscroll-behavior: none; /* ปิด Rubber-band effect */
     
     /* Safari Safe Area / Overscroll gradient matching */
+    background-color: #fdf2f8 !important; /* Tint Hint for Safari Bottom Bar */
     background: linear-gradient(to bottom, #f8fafc, #fdf2f8) !important;
     background-attachment: fixed !important;
     
