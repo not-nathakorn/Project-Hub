@@ -1,4 +1,4 @@
-// LiquidBackground - With Edge Masking for Clean Transparent Edges
+// LiquidBackground - Clean edges without blocking content
 export const LiquidBackground = () => {
   return (
     <>
@@ -6,46 +6,40 @@ export const LiquidBackground = () => {
         className="fixed inset-0 overflow-hidden pointer-events-none"
         style={{ zIndex: 0 }}
       >
-        {/* Base Background Layer - Pure white for clean edges */}
+        {/* Base Background Layer - Pure white */}
         <div className="absolute inset-0 bg-white dark:bg-[#0a0a0a] transition-colors duration-300" />
 
-        {/* Colorful Blob Layer - Masked to fade at edges */}
-        <div 
-          className="absolute inset-0 overflow-hidden"
-          style={{
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)'
-          }}
-        >
-          {/* Blob 1: Blue - Top Left */}
-          <div className="absolute top-[-20%] left-[-20%] md:top-[-10%] md:left-[-10%] w-[120vw] h-[120vw] md:w-[45vw] md:h-[45vw]">
+        {/* Colorful Blob Layer - Positioned to avoid edge areas */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Blob 1: Blue - Moved down from top edge */}
+          <div className="absolute top-[5%] left-[-15%] md:top-[5%] md:left-[-5%] w-[100vw] h-[100vw] md:w-[45vw] md:h-[45vw]">
             <div
               className="w-full h-full rounded-full animate-blob-pulse blob-1 blur-[60px] md:blur-[100px]"
               style={{
                 background:
-                  "radial-gradient(circle at center, rgba(59, 130, 246, 0.30) 0%, rgba(59, 130, 246, 0.15) 40%, transparent 70%)",
+                  "radial-gradient(circle at center, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0.12) 40%, transparent 70%)",
               }}
             />
           </div>
 
-          {/* Blob 2: Pink - Bottom Center */}
-          <div className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 translate-y-[20%] md:translate-y-[40%] w-[120vw] h-[120vw] md:w-[55vw] md:h-[55vw]">
+          {/* Blob 2: Pink - Moved up from bottom edge */}
+          <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[100vw] h-[100vw] md:w-[50vw] md:h-[50vw]">
             <div
               className="w-full h-full rounded-full animate-blob-pulse animation-delay-2000 blob-2 blur-[80px] md:blur-[130px]"
               style={{
                 background:
-                  "radial-gradient(circle at center, rgba(236, 72, 153, 0.20) 0%, rgba(236, 72, 153, 0.10) 40%, transparent 70%)",
+                  "radial-gradient(circle at center, rgba(236, 72, 153, 0.18) 0%, rgba(236, 72, 153, 0.08) 40%, transparent 70%)",
               }}
             />
           </div>
 
-          {/* Blob 3: Green/Cyan - Right Edge */}
-          <div className="absolute top-[20%] right-[-40%] md:top-[5%] md:right-[-10%] w-[100vw] h-[100vw] md:w-[45vw] md:h-[45vw]">
+          {/* Blob 3: Green/Cyan - Center right */}
+          <div className="absolute top-[25%] right-[-30%] md:top-[15%] md:right-[-5%] w-[90vw] h-[90vw] md:w-[40vw] md:h-[40vw]">
             <div
               className="w-full h-full rounded-full animate-blob-pulse animation-delay-4000 blob-3 blur-[60px] md:blur-[100px]"
               style={{
                 background:
-                  "radial-gradient(circle at center, rgba(34, 197, 94, 0.20) 0%, rgba(34, 197, 94, 0.10) 40%, transparent 70%)",
+                  "radial-gradient(circle at center, rgba(34, 197, 94, 0.18) 0%, rgba(34, 197, 94, 0.08) 40%, transparent 70%)",
               }}
             />
           </div>
@@ -54,16 +48,17 @@ export const LiquidBackground = () => {
 
       <style>{`
         .dark .blob-1 {
-          background: radial-gradient(circle at center, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.10) 40%, transparent 70%) !important;
+          background: radial-gradient(circle at center, rgba(56, 189, 248, 0.20) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%) !important;
         }
         .dark .blob-2 {
-          background: radial-gradient(circle at center, rgba(168, 85, 247, 0.25) 0%, rgba(168, 85, 247, 0.10) 40%, transparent 70%) !important;
+          background: radial-gradient(circle at center, rgba(168, 85, 247, 0.20) 0%, rgba(168, 85, 247, 0.08) 40%, transparent 70%) !important;
         }
         .dark .blob-3 {
-          background: radial-gradient(circle at center, rgba(20, 184, 166, 0.25) 0%, rgba(20, 184, 166, 0.10) 40%, transparent 70%) !important;
+          background: radial-gradient(circle at center, rgba(20, 184, 166, 0.20) 0%, rgba(20, 184, 166, 0.08) 40%, transparent 70%) !important;
         }
       `}</style>
     </>
   );
 };
+
 
