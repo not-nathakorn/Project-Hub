@@ -39,12 +39,12 @@
 
           if (isDark) {
             html.classList.add("dark");
-            html.style.setProperty("background-color", "#0a0a0a", "important");
+            html.style.backgroundColor = "#0a0a0a";
             targetColor = "#0a0a0a";
           } else {
             html.classList.remove("dark");
-            html.style.setProperty("background-color", "#f8fafc", "important"); // Top gradient color
-            targetColor = "#f8fafc"; // Match Status Bar to Top Gradient
+            html.style.backgroundColor = "#f8fafc";
+            targetColor = "#f8fafc";
           }
 
           // CRITICAL: Force update theme-color meta for Safari PWA edges
@@ -425,13 +425,12 @@
     <!-- iOS PWA Launch Screen Background Color (Critical for avoiding black screen) -->
     <style>
       /* Immediate background color - loads before any external CSS */
-      /* Updated to match gradient top/dark base to prevent flash */
       html {
         background-color: #f8fafc;
       }
       /* User-selected dark mode via class */
       html.dark {
-        background-color: #0a0a0a !important;
+        background-color: #0a0a0a;
       }
     </style>
 

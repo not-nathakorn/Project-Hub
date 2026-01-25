@@ -111,15 +111,13 @@
     overscroll-behavior: none;
     height: 100%;
     min-height: 100dvh;
-    /* Apply gradient to HTML to ensure overscroll and safe areas are covered */
-    background-color: #f8fafc !important;
-    background: linear-gradient(to bottom, #f8fafc, #fdf2f8) !important;
-    background-attachment: fixed !important;
+    background-color: transparent !important;
+    background: transparent !important;
   }
 
   /* Dark mode base color */
   html.dark {
-    background: #0a0a0a !important;
+    background: transparent !important;
   }
 
   body {
@@ -127,7 +125,10 @@
     background: transparent !important;
     
     @apply text-foreground font-sans;
-
+    
+    /* Safari Safe Area / Overscroll gradient matching */
+    background-color: #f8fafc !important; /* Fallback for overscroll */
+    
     min-height: 100vh;
     min-height: 100dvh;
     position: relative;
@@ -141,7 +142,7 @@
 
   /* Ensure dark mode uses solid black base */
   html.dark body {
-    background: transparent !important;
+    background-color: #0a0a0a !important;
   }
 
   /* HTML background handles the Safari overscroll color */
