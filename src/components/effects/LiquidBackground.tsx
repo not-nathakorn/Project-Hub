@@ -44,6 +44,22 @@ export const LiquidBackground = () => {
             />
           </div>
         </div>
+
+        {/* Edge Cleanup - Pure white fade at top/bottom safe areas only */}
+        <div 
+          className="absolute top-0 left-0 right-0 pointer-events-none"
+          style={{
+            height: 'env(safe-area-inset-top, 50px)',
+            background: 'linear-gradient(to bottom, white 0%, white 60%, transparent 100%)'
+          }}
+        />
+        <div 
+          className="absolute bottom-0 left-0 right-0 pointer-events-none"
+          style={{
+            height: 'env(safe-area-inset-bottom, 40px)',
+            background: 'linear-gradient(to top, white 0%, white 60%, transparent 100%)'
+          }}
+        />
       </div>
 
       <style>{`
