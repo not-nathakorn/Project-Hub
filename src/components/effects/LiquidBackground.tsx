@@ -9,8 +9,14 @@ export const LiquidBackground = () => {
         {/* Base Background Layer - Gradient to match blobs (Blue Top, Pink Bottom) */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#f8fafc] to-[#fdf2f8] dark:bg-[#0a0a0a] transition-colors duration-300" />
         
-        {/* Colorful Blob Layer */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Colorful Blob Layer with Masking for Seamless Edges */}
+        <div 
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)'
+          }}
+        >
           {/* Blob 1: Blue - Top Left */}
           <div className="absolute top-[-20%] left-[-20%] md:top-[-10%] md:left-[-10%] w-[120vw] h-[120vw] md:w-[45vw] md:h-[45vw]">
             <div 
@@ -42,9 +48,6 @@ export const LiquidBackground = () => {
           </div>
         </div>
 
-        {/* Subtle Edge Matching (Soft Fade to Transparent) */}
-        <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#f8fafc] to-transparent dark:from-[#0a0a0a] z-[1] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#fdf2f8] to-transparent dark:from-[#0a0a0a] z-[1] pointer-events-none" />
       </div>
       
       <style>{`
