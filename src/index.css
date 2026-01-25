@@ -112,6 +112,7 @@
     height: 100%;
     min-height: 100dvh;
     /* Apply gradient to HTML to ensure overscroll and safe areas are covered */
+    background-color: #f8fafc !important;
     background: linear-gradient(to bottom, #f8fafc, #fdf2f8) !important;
     background-attachment: fixed !important;
   }

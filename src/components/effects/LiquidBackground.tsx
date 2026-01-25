@@ -42,7 +42,9 @@ export const LiquidBackground = () => {
           </div>
         </div>
 
-
+        {/* Seamless Edge Blending - Matches theme-color and bottom gradients */}
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#f8fafc] to-transparent dark:from-[#0a0a0a] z-[5] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#fdf2f8] to-transparent dark:from-[#0a0a0a] z-[5] pointer-events-none" />
       </div>
       
       {/* Dark Mode Override Styles */}
