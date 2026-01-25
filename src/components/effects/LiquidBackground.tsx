@@ -43,13 +43,13 @@ export const LiquidBackground = () => {
           </div>
         </div>
 
-        {/* Mobile Tinted Edge Fade (Re-applied) - Essential for blending blobs with browser UI */}
+        {/* Mobile Tinted Edge Fade (Solid Edges) - Fixes visible bezel lines */}
         <div className="absolute inset-0 pointer-events-none md:hidden">
-          {/* Top - Blue Tint to match Top Blob */}
-          <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#eff6ff] via-[#eff6ff]/60 dark:from-[#172554] dark:via-[#172554]/60 to-transparent" />
+          {/* Top - Solid Blue-50 fading out */}
+          <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#eff6ff] dark:from-[#172554] to-transparent" />
           
-          {/* Bottom - Pink Tint to match Bottom Blob */}
-          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#fdf2f8] via-[#fdf2f8]/60 dark:from-[#500724] dark:via-[#500724]/60 to-transparent" />
+          {/* Bottom - Solid Pink-50 fading out (Lighter) */}
+          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#fdf2f8] dark:from-[#500724] to-transparent" />
         </div>
       </div>
       
