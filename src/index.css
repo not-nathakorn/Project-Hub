@@ -105,31 +105,27 @@
     @apply border-border;
   }
 
-  /* html background handles the base color, actual visual is in LiquidBackground */
+  /* html background handles the base color and gradient for overscroll/safe areas */
   html {
     scroll-behavior: smooth;
     overscroll-behavior: none;
     height: 100%;
     min-height: 100dvh;
-    background-color: transparent !important;
-    background: transparent !important;
+    background: linear-gradient(to bottom, #f8fafc, #fdf2f8) !important;
+    background-attachment: fixed !important;
   }
 
   /* Dark mode base color */
   html.dark {
-    background: transparent !important;
+    background: #0a0a0a !important;
   }
 
   body {
     overscroll-behavior: none; /* ปิด Rubber-band effect */
     background: transparent !important;
-    
+
     @apply text-foreground font-sans;
-    
-    /* Safari Safe Area / Overscroll gradient matching */
-    background: linear-gradient(to bottom, #f8fafc, #fdf2f8) !important;
-    background-attachment: fixed !important;
-    
+
     min-height: 100vh;
     min-height: 100dvh;
     position: relative;
@@ -141,9 +137,9 @@
       border-color 0.3s ease;
   }
 
-  /* Ensure dark mode uses solid black base */
+  /* Ensure dark mode body stays transparent */
   html.dark body {
-    background: #0a0a0a !important;
+    background: transparent !important;
   }
 
   /* HTML background handles the Safari overscroll color */
@@ -304,7 +300,7 @@
   .glass-nav-container {
     @apply fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none px-4 pt-safe;
   }
-  
+
   .glass-nav-card {
     @apply mt-4 md:mt-6 w-full max-w-7xl pointer-events-auto transition-all duration-500;
     @apply bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md;

@@ -40,10 +40,13 @@
           if (isDark) {
             html.classList.add("dark");
             html.style.backgroundColor = "#0a0a0a";
+            html.style.background = "#0a0a0a";
             targetColor = "#0a0a0a";
           } else {
             html.classList.remove("dark");
             html.style.backgroundColor = "#f8fafc";
+            html.style.background =
+              "linear-gradient(to bottom, #f8fafc, #fdf2f8) fixed";
             targetColor = "#f8fafc";
           }
 
@@ -121,8 +124,16 @@
     <link rel="apple-touch-icon" href="/iOS-Logo-P.png" />
 
     <!-- Theme Color for Safari Status Bar -->
-    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="theme-color"
+      content="#f8fafc"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0a0a0a"
+      media="(prefers-color-scheme: dark)"
+    />
 
     <!-- PWA Status Bar Style -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -527,8 +538,13 @@
         }
 
         @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
         }
 
         /* Spinner Animation - Monochrome */
@@ -550,8 +566,12 @@
         }
 
         @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
 
         /* Glow Effects (Subtle) */
@@ -576,28 +596,74 @@
         }
 
         /* Layout Helpers */
-        .relative { position: relative; }
-        .space-y-6 > * + * { margin-top: 1.5rem; }
-        .space-y-3 > * + * { margin-top: 0.75rem; }
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .justify-center { justify-content: center; }
-        .gap-4 { gap: 1rem; }
-        .flex-1 { flex: 1 1 0%; }
-        .grid { display: grid; }
-        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .relative {
+          position: relative;
+        }
+        .space-y-6 > * + * {
+          margin-top: 1.5rem;
+        }
+        .space-y-3 > * + * {
+          margin-top: 0.75rem;
+        }
+        .flex {
+          display: flex;
+        }
+        .items-center {
+          align-items: center;
+        }
+        .justify-center {
+          justify-content: center;
+        }
+        .gap-4 {
+          gap: 1rem;
+        }
+        .flex-1 {
+          flex: 1 1 0%;
+        }
+        .grid {
+          display: grid;
+        }
+        .grid-cols-1 {
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
         @media (min-width: 640px) {
-          .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .sm\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
 
         /* Specific Skeletons */
-        .sk-avatar { width: 3.5rem; height: 3.5rem; border-radius: 9999px; }
-        .sk-title { height: 1.25rem; width: 75%; }
-        .sk-subtitle { height: 1rem; width: 50%; margin-top: 0.5rem; }
-        .sk-img { height: 8rem; width: 100%; border-radius: 0.75rem; }
-        .sk-text { height: 1rem; width: 100%; }
-        .sk-text-short { height: 1rem; width: 66%; }
-        .sk-text-med { height: 1rem; width: 75%; }
+        .sk-avatar {
+          width: 3.5rem;
+          height: 3.5rem;
+          border-radius: 9999px;
+        }
+        .sk-title {
+          height: 1.25rem;
+          width: 75%;
+        }
+        .sk-subtitle {
+          height: 1rem;
+          width: 50%;
+          margin-top: 0.5rem;
+        }
+        .sk-img {
+          height: 8rem;
+          width: 100%;
+          border-radius: 0.75rem;
+        }
+        .sk-text {
+          height: 1rem;
+          width: 100%;
+        }
+        .sk-text-short {
+          height: 1rem;
+          width: 66%;
+        }
+        .sk-text-med {
+          height: 1rem;
+          width: 75%;
+        }
 
         /* Loading Text */
         .loading-text {
@@ -622,7 +688,6 @@
             <div class="flex items-center gap-4">
               <div class="relative">
                 <div class="skeleton sk-avatar"></div>
-
               </div>
               <div class="flex-1">
                 <div class="skeleton sk-title"></div>
@@ -648,7 +713,6 @@
             <div>
               <div class="flex justify-center items-center gap-4 relative">
                 <div class="spinner-ring"></div>
-
               </div>
               <p class="loading-text">กำลังโหลด...</p>
             </div>
