@@ -42,9 +42,11 @@ export const LiquidBackground = () => {
           </div>
         </div>
 
+        {/* Subtle Edge Matching (Soft Fade to Transparent) */}
+        <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#f8fafc] to-transparent dark:from-[#0a0a0a] z-[1] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#fdf2f8] to-transparent dark:from-[#0a0a0a] z-[1] pointer-events-none" />
       </div>
       
-      {/* Dark Mode Override Styles */}
       <style>{`
         .dark .blob-1 {
           background: radial-gradient(circle at center, rgba(56, 189, 248, 0.25) 0%, rgba(56, 189, 248, 0.10) 40%, transparent 70%) !important;

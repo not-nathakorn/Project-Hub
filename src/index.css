@@ -127,7 +127,8 @@
     @apply text-foreground font-sans;
     
     /* Safari Safe Area / Overscroll gradient matching */
-    background-color: #f8fafc !important; /* Fallback for overscroll */
+    background: linear-gradient(to bottom, #f8fafc, #fdf2f8) !important;
+    background-attachment: fixed !important;
     
     min-height: 100vh;
     min-height: 100dvh;
@@ -142,7 +143,7 @@
 
   /* Ensure dark mode uses solid black base */
   html.dark body {
-    background-color: #0a0a0a !important;
+    background: #0a0a0a !important;
   }
 
   /* HTML background handles the Safari overscroll color */
