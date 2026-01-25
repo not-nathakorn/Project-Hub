@@ -1,4 +1,4 @@
-// Checked 2024-07-29
+// LiquidBackground - With Edge Masking for Clean Transparent Edges
 export const LiquidBackground = () => {
   return (
     <>
@@ -6,11 +6,17 @@ export const LiquidBackground = () => {
         className="fixed inset-0 overflow-hidden pointer-events-none"
         style={{ zIndex: 0 }}
       >
-        {/* Base Background Layer - Transparent to avoid edge color bands */}
+        {/* Base Background Layer - Pure white for clean edges */}
         <div className="absolute inset-0 bg-white dark:bg-[#0a0a0a] transition-colors duration-300" />
 
-        {/* Colorful Blob Layer - Full Bleed */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Colorful Blob Layer - Masked to fade at edges */}
+        <div 
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)'
+          }}
+        >
           {/* Blob 1: Blue - Top Left */}
           <div className="absolute top-[-20%] left-[-20%] md:top-[-10%] md:left-[-10%] w-[120vw] h-[120vw] md:w-[45vw] md:h-[45vw]">
             <div
@@ -60,3 +66,4 @@ export const LiquidBackground = () => {
     </>
   );
 };
+
