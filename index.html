@@ -23,28 +23,15 @@
             html.classList.remove("dark");
           }
 
-          // Set background for immersive design
-          // Light: gradient matching blob colors (blue top, pink bottom)
-          // Dark: solid black
-          var bgColor = isDark ? "#0a0a0a" : "#eef6ff"; // Top color for status bar
-          html.style.backgroundColor = bgColor;
+          // Set background to transparent for full immersive effect
+          html.style.backgroundColor = "transparent";
+          document.body.style.backgroundColor = "transparent";
 
-          // Create/Update theme-color meta for Safari status bar
-          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
-          if (!metaThemeColor) {
-            metaThemeColor = document.createElement("meta");
-            metaThemeColor.name = "theme-color";
-            document.head.appendChild(metaThemeColor);
-          }
-          metaThemeColor.content = bgColor;
-          metaThemeColor.removeAttribute("media");
-
-          // Clean up conflicting metas
+          // Remove theme-color meta to allow content to show through status bar
+          // (Requires apple-mobile-web-app-status-bar-style="black-translucent")
           var allMetas = document.querySelectorAll('meta[name="theme-color"]');
           for (var i = 0; i < allMetas.length; i++) {
-            if (allMetas[i] !== metaThemeColor) {
-              allMetas[i].remove();
-            }
+             allMetas[i].remove();
           }
         } catch (e) {}
       })();

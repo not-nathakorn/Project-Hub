@@ -1,4 +1,4 @@
-// LiquidBackground - Original full blobs with matching edge colors
+// LiquidBackground - Full blobs showing through transparent UI
 
 export const LiquidBackground = () => {
   return (
@@ -7,14 +7,8 @@ export const LiquidBackground = () => {
         className="fixed inset-0 overflow-hidden pointer-events-none"
         style={{ zIndex: 0 }}
       >
-        {/* Base Background Layer - Gradient matching blob colors */}
-        <div 
-          className="absolute inset-0 transition-colors duration-300"
-          style={{
-            background: 'linear-gradient(to bottom, #eef6ff 0%, #ffffff 30%, #ffffff 70%, #fdf2f8 100%)'
-          }}
-        />
-        <div className="absolute inset-0 bg-transparent dark:bg-[#0a0a0a] transition-colors duration-300" />
+        {/* Base Background Layer - Pure White */}
+        <div className="absolute inset-0 bg-white dark:bg-[#0a0a0a] transition-colors duration-300" />
 
         {/* Colorful Blob Layer - Original Full Intensity */}
         <div className="absolute inset-0 overflow-hidden">

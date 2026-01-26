@@ -105,27 +105,27 @@
     @apply border-border;
   }
 
-  /* Immersive Design - Gradient background matching blob colors */
+  /* Immersive Design - Transparent to let LiquidBackground show through */
   html {
     scroll-behavior: smooth;
     overscroll-behavior: none;
     height: 100%;
     min-height: 100dvh;
-    /* Gradient: Light blue (top/blob1) → White (middle) → Light pink (bottom/blob2) */
-    background: linear-gradient(to bottom, #eef6ff 0%, #ffffff 30%, #ffffff 70%, #fdf2f8 100%) !important;
-    background-attachment: fixed !important;
+    background-color: transparent !important;
+    background: transparent !important;
     margin: 0;
     padding: 0;
   }
 
   /* Dark mode */
   html.dark {
-    background: #0a0a0a !important;
+    background: transparent !important;
   }
 
   body {
     overscroll-behavior: none;
-    background-color: #ffffff !important;
+    background-color: transparent !important;
+    background: transparent !important;
     margin: 0;
     padding: 0;
     
@@ -144,7 +144,7 @@
 
   /* Dark mode body */
   html.dark body {
-    background-color: #0a0a0a !important;
+    background: transparent !important;
   }
 
   /* Safe Area Padding Utility */
