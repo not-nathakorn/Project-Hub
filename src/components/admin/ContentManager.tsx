@@ -266,7 +266,10 @@ export const ContentManager = () => {
     const oldIndex = items.findIndex(item => item.id === active.id);
     const newIndex = items.findIndex(item => item.id === over.id);
     
-    const newItems = arrayMove(items, oldIndex, newIndex);
+    const newItems = arrayMove(items, oldIndex, newIndex).map((item, index) => ({
+      ...item,
+      order_index: index
+    }));
     setItems(newItems as typeof projects);
 
     // Update order in database
