@@ -63,7 +63,7 @@ export function NavigationDock() {
     },
   ];
   return (
-    <div className="fixed bottom-4 md:bottom-8 left-0 right-0 z-50 flex items-center justify-center w-full pointer-events-none hidden md:flex lg:hidden pb-safe">
+    <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center w-full pointer-events-none hidden md:flex lg:hidden" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 1rem)' }}>
       <div className="pointer-events-auto">
         <FloatingDock
           items={links}

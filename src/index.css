@@ -157,13 +157,26 @@
     background: #0a0a0a !important;
   }
 
-  /* Safe Area Padding - Keep these as they are useful utilities */
-  .safe-bottom-padding {
-    padding-bottom: env(safe-area-inset-bottom);
+  /* Safe Area Utilities (Visual Polish) */
+  .safe-padding-top {
+    padding-top: env(safe-area-inset-top);
   }
   
-  .safe-top-padding {
-    padding-top: env(safe-area-inset-top);
+  .safe-padding-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-padding-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-padding-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Legacy support if needed */
+  .safe-bottom-padding {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   /* HTML background handles the Safari overscroll color */
@@ -322,7 +335,8 @@
 
   /* Island Navbar Base (Floating) */
   .glass-nav-container {
-    @apply fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none px-4 pt-safe;
+    @apply fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none px-4;
+    padding-top: env(safe-area-inset-top);
   }
 
   .glass-nav-card {

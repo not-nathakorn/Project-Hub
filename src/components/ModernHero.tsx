@@ -19,7 +19,7 @@ export const ModernHero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col items-center pt-32 md:pt-44 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex flex-col items-center pt-[calc(8rem+env(safe-area-inset-top))] md:pt-[calc(11rem+env(safe-area-inset-top))] overflow-hidden">
       {/* Background Effects */}
       {/* LiquidBackground is global in App.tsx */}
       <Spotlight className="hidden md:block opacity-50" />
